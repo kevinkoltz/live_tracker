@@ -17,12 +17,6 @@ defmodule LiveTrackerWeb.Router do
   scope "/", LiveTrackerWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    live "/clock", ClockLive
+    live "/", SequencerLive
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", LiveTrackerWeb do
-  #   pipe_through :api
-  # end
 end
