@@ -5,7 +5,11 @@ defmodule LiveTrackerWeb.SequencerLive do
            playing: false,
            recording: false,
            position: 1,
+           tracks: 4,
+           selected_track: 1,
            length: 16,
+           octave: 4,
+           current_note: nil,
            sequence: %{
              1 => %{notes: ["A4"]},
              2 => %{notes: ["B4"]},
@@ -14,26 +18,29 @@ defmodule LiveTrackerWeb.SequencerLive do
              5 => %{notes: ["E4"]},
              6 => %{notes: ["C4"]},
              7 => %{notes: ["E4"]},
-             8 => %{notes: [""]},
+             8 => %{notes: []},
              9 => %{notes: ["Db4"]},
              10 => %{notes: ["B4"]},
              11 => %{notes: ["Db4"]},
-             12 => %{notes: [""]},
+             12 => %{notes: []},
              13 => %{notes: ["D4"]},
              14 => %{notes: ["B4"]},
              15 => %{notes: ["D4"]},
-             16 => %{notes: [""]}
+             16 => %{notes: []}
            }
 
   def render(assigns) do
     ~L"""
     Position: <%= @position %>
+    Track: <%= @selected_track %>
 
-    <div>
+    <div phx-keydown="keydown" phx-target="window">
       <button phx-click="record">Record</button>
       <button phx-click="play">Play</button>
       <button phx-click="stop">Stop</button>
     </div>
+
+    table>tr>th*4
 
     <%= inspect(assigns) %>
     """
@@ -49,9 +56,39 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:ok, updated_socket}
   end
 
+  # Transport
+
   def handle_event("play", _, socket), do: {:noreply, play(socket)}
   def handle_event("stop", _, socket), do: {:noreply, stop(socket)}
   def handle_event("record", _, socket), do: {:noreply, record(socket)}
+
+  def handle_event("keydown", "ArrowRight", socket), do: {:noreply, select_track(socket, :next)}
+  def handle_event("keydown", "ArrowLeft", socket), do: {:noreply, select_track(socket, :prev)}
+
+  # Keyboard notes
+
+  def handle_event("keydown", "a", socket), do: {:noreply, play_note(socket, :C)}
+  def handle_event("keydown", "w", socket), do: {:noreply, play_note(socket, :Cb)}
+  def handle_event("keydown", "s", socket), do: {:noreply, play_note(socket, :D)}
+  def handle_event("keydown", "e", socket), do: {:noreply, play_note(socket, :Db)}
+  def handle_event("keydown", "d", socket), do: {:noreply, play_note(socket, :E)}
+  def handle_event("keydown", "f", socket), do: {:noreply, play_note(socket, :F)}
+  def handle_event("keydown", "t", socket), do: {:noreply, play_note(socket, :Fb)}
+  def handle_event("keydown", "g", socket), do: {:noreply, play_note(socket, :G)}
+  def handle_event("keydown", "y", socket), do: {:noreply, play_note(socket, :Gb)}
+  def handle_event("keydown", "h", socket), do: {:noreply, play_note(socket, :A)}
+  def handle_event("keydown", "u", socket), do: {:noreply, play_note(socket, :Ab)}
+  def handle_event("keydown", "j", socket), do: {:noreply, play_note(socket, :B)}
+
+  def handle_event("keydown", "k", socket),
+    do: {:noreply, play_note(socket, :C, octave_shift_amount: 1)}
+
+  ## Octave up/down
+
+  def handle_event("keydown", "z", socket), do: {:noreply, change_octave(socket, :down)}
+  def handle_event("keydown", "x", socket), do: {:noreply, change_octave(socket, :up)}
+
+  def handle_event("keydown", _, socket), do: {:noreply, socket}
 
   # def handle_event(event, message, socket) do
   #   IO.inspect({event, message}, label: "event not handled")
@@ -59,13 +96,10 @@ defmodule LiveTrackerWeb.SequencerLive do
   # end
 
   def handle_info(:tick, socket) do
-    IO.inspect(socket.assigns.position, label: "tock")
     {:noreply, socket |> schedule_tick() |> advance()}
   end
 
-  defp advance(%{assigns: %{playing: false}} = socket), do: socket
-  defp advance(%{assigns: %{position: n, length: n}} = socket), do: reset_position(socket)
-  defp advance(socket), do: update(socket, :position, &(&1 + 1))
+  ## Transport
 
   defp play(socket), do: assign(socket, playing: true)
 
@@ -82,7 +116,50 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   defp record(%{assigns: %{playing: true}} = socket), do: assign(socket, recording: false)
 
-  defp reset_position(socket), do: socket |> IO.inspect() |> assign(position: 1)
+  defp advance(%{assigns: %{playing: false}} = socket), do: socket
+  defp advance(%{assigns: %{position: n, length: n}} = socket), do: reset_position(socket)
+  defp advance(socket), do: update(socket, :position, &(&1 + 1))
+
+  defp reset_position(socket), do: socket |> assign(position: 1)
+
+  ## Notes
+
+  defp change_octave(socket, :up),
+    do: assign(socket, :octave, shift_octave(socket.assigns.octave, 1))
+
+  defp change_octave(socket, :down),
+    do: assign(socket, :octave, shift_octave(socket.assigns.octave, -1))
+
+  defp shift_octave(octave, amount) when octave + amount < 0, do: 0
+  defp shift_octave(octave, amount) when octave + amount > 8, do: 8
+  defp shift_octave(octave, amount), do: octave + amount
+
+  defp play_note(socket, note, opts \\ []) when is_atom(note) do
+    octave_shift_amount = Keyword.get(opts, :octave_shift_amount, 0)
+
+    octave = shift_octave(socket.assigns.octave, octave_shift_amount)
+
+    socket
+    |> assign(:current_note, to_string(note) <> to_string(octave))
+    |> maybe_record()
+  end
+
+  defp maybe_record(%{assigns: %{recording: false}} = socket), do: socket
+
+  defp maybe_record(%{assigns: %{recording: true}} = socket) do
+    # TODO: update sequence for current selected track
+    socket
+  end
+
+  ## Tracks
+
+  defp select_track(socket, :prev),
+    do: assign(socket, :octave, max(1, socket.assigns.selected_track - 1))
+
+  defp select_track(socket, :next),
+    do: assign(socket, :octave, min(socket.assigns.tracks, socket.assigns.selected_track + 1))
+
+  ## Loop
 
   defp schedule_tick(socket) do
     time_in_ms = round(60 / socket.assigns.bpm * 1_000)
