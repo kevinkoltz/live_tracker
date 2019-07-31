@@ -1,6 +1,20 @@
 # LiveTracker
 
-This is my entry in [Phoenix Phrenzy](https://phoenixphrenzy.com), showing off what [Phoenix](https://phoenixframework.org/) and [LiveView](https://github.com/phoenixframework/phoenix_live_view) can do.
+```
+.___    .___ .___     .____________._.______  .______  ._______ .____/\ ._______.______
+|   |   : __||   |___ : .____/\__ _:|: __   \ :      \ :_.  ___\:   /  \: .____/: __   \
+|   |   | : ||   |   || : _/\   |  :||  \____||   .   ||  : |/\ |.  ___/| : _/\ |  \____|
+|   |/\ |   ||   :   ||   /  \  |   ||   :  \ |   :   ||    /  \|     \ |   /  \|   :  \
+|   /  \|   | \      ||_.: __/  |   ||   |___\|___|   ||. _____/|      \|_.: __/|   |___\
+|______/|___|  \____/    :/     |___||___|        |___| :/      |___\  /   :/   |___|
+                                                        :            \/             v.3030
+```
+
+Entry for [Phoenix Phrenzy](https://phoenixphrenzy.com) contest.
+
+First there was Amiga [ProTracker](https://en.wikipedia.org/wiki/ProTracker),
+then DOS [FastTracker](https://en.wikipedia.org/wiki/FastTracker_2),
+and now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTracker**.
 
 ![LiveTracker preview](assets/static/images/preview.gif "LiveTracker")
 
