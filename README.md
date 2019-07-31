@@ -18,6 +18,16 @@ and now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **Live
 
 ![LiveTracker preview](assets/static/images/preview.gif "LiveTracker")
 
+## How to play
+
+Notes can be played using built-in keyboard mappings:
+
+- Play white notes `C4`-`C5` with keyboard keys `a`-`k` starting at the 4th octave.
+- Black keys are `w` (`Cb4`), `e` (`Db4`), `t` (`Fb4`), `y` (`Gb4`), and `u` (`Ab4`).
+- Octave can be shifted up or down using `z` and `x`, respectively.
+
+Select a track (instrument) using the `left` or `right` arrow keys.
+
 ## Phrenzy Instructions
 
 Fork this repo and start build an application! See [Phoenix Phrenzy](https://phoenixphrenzy.com) for details.
