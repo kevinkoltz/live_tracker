@@ -20,14 +20,46 @@ body {
 
 #logo {
   font-size: 8px;
+  width: 1024px;
+  margin: 20px auto 10px;
 }
 
 #tracker-container {
   background-color: DarkSlateBlue;
   color: White;
   width: 1024px;
-  height: 600px;
   margin: auto;
+}
+
+#tracker-header {
+  display: flex;
+}
+
+#tracker-info>div {
+  margin: 4px;
+}
+
+#tracker-transport {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 550px;
+  width: 150px;
+}
+
+#tracker-tracks>table {
+  width: 100%;
+  border-spacing: 2px 2px;
+}
+
+#tracker-tracks>table td {
+  padding: 4px;
+}
+
+.track {
+  color: DodgerBlue;
+  background-color: MidnightBlue;
 }
 
 .embossed {
@@ -37,6 +69,12 @@ body {
   border-right: 2px solid rgba(0, 0, 0, .5);
 }
 
+.recessed {
+  border-top: 2px solid rgba(0, 0, 0, .5);
+  border-left: 2px solid rgba(0, 0, 0, .5);
+  border-bottom: 2px solid rgba(255, 255, 255, .5);
+  border-right: 2px solid rgba(255, 255, 255, .5);
+}
 
 button:active,
 input[type='button']:active,
@@ -74,4 +112,5 @@ input[type='submit'] {
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
+  margin: 2px;
 }

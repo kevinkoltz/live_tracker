@@ -30,20 +30,7 @@ defmodule LiveTrackerWeb.SequencerLive do
            }
 
   def render(assigns) do
-    ~L"""
-    Position: <%= @position %>
-    Track: <%= @selected_track %>
-
-    <div phx-keydown="keydown" phx-target="window">
-      <button phx-click="record">Record</button>
-      <button phx-click="play">Play</button>
-      <button phx-click="stop">Stop</button>
-    </div>
-
-    table>tr>th*4
-
-    <%= inspect(assigns) %>
-    """
+    SequencerView.render("index.html", assigns)
   end
 
   def mount(_session, socket) do
@@ -111,10 +98,10 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   defp stop(socket), do: assign(socket, playing: false, recording: false)
 
-  defp record(%{assigns: %{playing: false}} = socket),
-    do: socket |> assign(recording: true) |> play()
+  defp record(%{assigns: %{playing: false}} = socket), do: socket |> toggle_recording() |> play()
+  defp record(%{assigns: %{playing: true}} = socket), do: socket |> toggle_recording()
 
-  defp record(%{assigns: %{playing: true}} = socket), do: assign(socket, recording: false)
+  def toggle_recording(socket), do: assign(socket, recording: !socket.assigns.recording)
 
   defp advance(%{assigns: %{playing: false}} = socket), do: socket
   defp advance(%{assigns: %{position: n, length: n}} = socket), do: reset_position(socket)
