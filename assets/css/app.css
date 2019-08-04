@@ -1,4 +1,77 @@
 /* This file is for your main application css. */
+@font-face {
+  font-family: 'Commodore Pixelized v1.2';
+  src: url('/fonts/commodore-64-pixelized.ttf') format('truetype');
+}
 
-@import "./phoenix.css";
+@import "./reset.css";
 @import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+a,
+body,
+button {
+  font-family: 'Commodore Pixelized v1.2', monospace;
+}
+
+body {
+  background-color: Black;
+  color: White;
+}
+
+#logo {
+  font-size: 8px;
+}
+
+#tracker-container {
+  background-color: DarkSlateBlue;
+  color: White;
+  width: 1024px;
+  height: 600px;
+  margin: auto;
+}
+
+.embossed {
+  border-top: 2px solid rgba(255, 255, 255, .5);
+  border-left: 2px solid rgba(255, 255, 255, .5);
+  border-bottom: 2px solid rgba(0, 0, 0, .5);
+  border-right: 2px solid rgba(0, 0, 0, .5);
+}
+
+
+button:active,
+input[type='button']:active,
+input[type='reset']:active,
+input[type='submit']:active {
+  color: #222;
+  text-shadow: 1px 1px White;
+  background-color: LightGrey;
+  border-bottom: 2px solid White;
+  border-right: 2px solid White;
+  border-top: 2px solid Grey;
+  border-left: 2px solid Grey;
+}
+
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  -webkit-appearance: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  color: #222;
+  text-shadow: 1px 1px White;
+  background-color: LightGrey;
+  border-top: 2px solid White;
+  border-left: 2px solid White;
+  border-bottom: 2px solid Grey;
+  border-right: 2px solid Grey;
+  cursor: pointer;
+  display: inline-block;
+  height: 1.5rem;
+  line-height: 1rem;
+  width: 140px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

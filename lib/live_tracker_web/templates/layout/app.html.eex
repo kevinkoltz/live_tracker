@@ -9,21 +9,22 @@
   </head>
   <body>
     <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-          </ul>
-        </nav>
-        <a href="http://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+        <pre id="logo">
+.___    .___ .___     .____________._.______  .______  ._______ .____/\ ._______.______
+|   |   : __||   |___ : .____/\__ _:|: __   \ :      \ :_.  ___\:   /  \: .____/: __   \
+|   |   | : ||   |   || : _/\   |  :||  \____||   .   ||  : |/\ |.  ___/| : _/\ |  \____|
+|   |/\ |   ||   :   ||   /  \  |   ||   :  \ |   :   ||    /  \|     \ |   /  \|   :  \
+|   /  \|   | \      ||_.: __/  |   ||   |___\|___|   ||. _____/|      \|_.: __/|   |___\
+|______/|___|  \____/    :/     |___||___|        |___| :/      |___\  /   :/   |___|
+                                                        :            \/             v.3030
+        </pre>
     </header>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
+      <div id="tracker-container">
+        <%= render @view_module, @view_template, assigns %>
+      </div>
     </main>
     <script type="text/javascript" src='<%= Routes.static_path(@conn, "/js/Tone.js") %>'></script>
     <script type="text/javascript" src='<%= Routes.static_path(@conn, "/js/app.js") %>'></script>

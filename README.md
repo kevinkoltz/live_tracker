@@ -28,6 +28,10 @@ Notes can be played using built-in keyboard mappings:
 
 Select a track (instrument) using the `left` or `right` arrow keys.
 
+## Sample and Font Credits
+
+- [Commodore 64 Pixelized Free Font by Devin Cook](https://www.stockio.com/free-font/commodore-64-pixelized)
+
 ## Phrenzy Instructions
 
 Fork this repo and start build an application! See [Phoenix Phrenzy](https://phoenixphrenzy.com) for details.
