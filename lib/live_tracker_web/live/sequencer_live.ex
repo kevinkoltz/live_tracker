@@ -1,6 +1,8 @@
 defmodule LiveTrackerWeb.SequencerLive do
   use Phoenix.LiveView
 
+  alias LiveTrackerWeb.SequencerView
+
   @initial bpm: 120,
            playing: false,
            recording: false,

@@ -35,6 +35,8 @@ body {
   display: flex;
 }
 
+.track-heading,
+#tracker-status>div,
 #tracker-info>div {
   margin: 4px;
 }
@@ -53,13 +55,20 @@ body {
   border-spacing: 2px 2px;
 }
 
-#tracker-tracks>table td {
-  padding: 4px;
-}
-
 .track {
   color: DodgerBlue;
   background-color: MidnightBlue;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
+  letter-spacing: 4px;
+}
+
+.recording {
+  color: red;
 }
 
 .embossed {

@@ -1,15 +1,16 @@
 <div id="tracker-header">
   <div id="tracker-info" class="embossed">
-    <div>
-      POS: <%= number_format(@position, 2) %>
+    <div class='<%= @recording && "recording" || "" %>'>
+      POS: <%= padded_format(@position, 2) %>
     </div>
     <div>
-      TRK: <%= number_format(@selected_track, 2) %>
+      TRK: <%= padded_format(@selected_track, 2) %>
     </div>
     <div>
-      TIME: 00
+      LEN: <%= padded_format(@length, 2) %>
     </div>
   </div>
+
   <div id="tracker-transport" class="embossed" phx-keydown="keydown" phx-target="window">
     <button phx-click="record">Record</button>
     <button phx-click="play">Play</button>
@@ -17,28 +18,39 @@
   </div>
 </div>
 
+<div id="tracker-status" class="embossed">
+  <div id="tracker-time">
+    TIME: 00:00:00
+  </div>
+</div>
+
 <div id="tracker-tracks" class="embossed">
     <table>
       <tr>
-        <th></th>
+        <th>LN</th>
         <%= for track_id <- 1..4 do %>
-          <th>Track <%= track_id %></th>
+          <th><div class="track-heading">Track <%= track_id %></div></th>
         <% end %>
       </tr>
       <tr>
         <td width="20">
             <div class="track recessed">
-              01<br>
-              02<br>
-              03<br>
+              <%= for line_id <- 1..@length do %>
+                <div class="line">
+                  <%= padded_format(line_id, 2) %><br>
+                </div>
+              <% end %>
             </div>
             </td>
         <%= for track_id <- 1..4 do %>
           <td>
             <div class="track recessed">
-              asdf<br>
-              asdf<br>
-              asdf<br>
+              <%= for line_id <- 1..@length do %>
+                <div class="line">
+                  <div>---</div>
+                  <div>00000</div>
+                </div>
+              <% end %>
             </div>
           </td>
         <% end %>
