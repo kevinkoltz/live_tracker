@@ -1,6 +1,6 @@
 # LiveTracker
 
-```
+```text
 .___    .___ .___     .____________._.______  .______  ._______ .____/\ ._______.______
 |   |   : __||   |___ : .____/\__ _:|: __   \ :      \ :_.  ___\:   /  \: .____/: __   \
 |   |   | : ||   |   || : _/\   |  :||  \____||   .   ||  : |/\ |.  ___/| : _/\ |  \____|
@@ -35,8 +35,7 @@ Notes can be played using built-in keyboard mappings:
 - Play white notes `C4`-`C5` with keyboard keys `a`-`k` starting at the 4th octave.
 - Black keys are `w` (`Cb4`), `e` (`Db4`), `t` (`Fb4`), `y` (`Gb4`), and `u` (`Ab4`).
 - Octave can be shifted up or down using `z` and `x`, respectively.
-
-Select a track (instrument) using the `left` or `right` arrow keys.
+- Select a track (instrument) using the `left` or `right` arrow keys.
 
 ## Font and Sample Credits
 
@@ -45,7 +44,11 @@ Select a track (instrument) using the `left` or `right` arrow keys.
 
 ## Wishlist
 
-- Support uploading of MOD files
+- Multiple users using [Phoenix.Presence](https://hexdocs.pm/phoenix/Phoenix.Presence.html)
+  - Ability to record notes from multiple computers simultaneously
+- Support for patterns (series of notes) and song edit (arrangement of patterns)
+- Ability to save sequences (maybe .mods too for export)
+- Support uploading and parsing of MOD files
   - [The Amiga MOD Format](https://www.ocf.berkeley.edu/~eek/index.html/tiny_examples/ptmod/ap12.html)
   - [MOD Music File Format](https://www.fileformat.info/format/mod/corion.htm)
 
