@@ -1,59 +1,99 @@
-<div id="tracker-header">
+<div id="tracker-header" phx-keydown="keydown" phx-target="window">
   <div id="tracker-info" class="embossed">
-    <div class='<%= @recording && "recording" || "" %>'>
-      POS: <%= padded_format(@position, 2) %>
+    <div>
+      POS: <%= number_format(@position, padding: 3, hex: true) %>
+      <%# <button phx-click="record" class="button-small">+</button>
+      <button phx-click="record" class="button-small">-</button> %>
     </div>
     <div>
-      TRK: <%= padded_format(@selected_track, 2) %>
+      PTN: <%= number_format(@pattern, padding: 3, hex: true) %>
+      <%# <button phx-click="record" class="button-small">+</button>
+      <button phx-click="record" class="button-small">-</button> %>
     </div>
     <div>
-      LEN: <%= padded_format(@length, 2) %>
+      BPM: <%= number_format(@bpm, padding: 3) %>
+      <%# <button phx-click="record" class="button-small">+</button>
+      <button phx-click="record" class="button-small">-</button> %>
+    </div>
+    <div>
+      LEN: <%= number_format(@length, padding: 3) %>
+      <%# <button phx-click="record" class="button-small">+</button>
+      <button phx-click="record" class="button-small">-</button> %>
     </div>
   </div>
 
-  <div id="tracker-transport" class="embossed" phx-keydown="keydown" phx-target="window">
-    <button phx-click="record">Record</button>
-    <button phx-click="play">Play</button>
-    <button phx-click="stop">Stop</button>
+  <div id="tracker-transport" class="embossed">
+    <div class="buttons">
+      <button phx-click="record" class="button-disabled">Record</button>
+      <button phx-click="play">Play</button>
+      <button phx-click="stop">Stop</button>
+    </div>
+  </div>
+
+  <div id="tracker-vu-meters" class="embossed">
+    <%= for track_id <- 0..@tracks-1 do %>
+      <div class="vu-meter recessed" phx-click="select_track" phx-value="<%= track_id %>">
+        <%= track_id %>
+
+        <%= if track_id == @selected_track do %>
+          <div class='<%= @recording && "recording" || "" %>'>
+            *
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="tracker-options" class="embossed">
+    <%= render("#{assigns.controls_view}.html", assigns: assigns) %>
   </div>
 </div>
 
 <div id="tracker-status" class="embossed">
-  <div id="tracker-time">
-    TIME: 00:00:00
-  </div>
+  <div>FILENAME: <%= @sequence.filename %></div>
+  <div>SONG NAME: <%= song_name_format(@sequence.name) %></div>
+  <%# TODO: update this when server disconnects %>
+  <div>STATUS: CLOUDY</div>
 </div>
 
 <div id="tracker-tracks" class="embossed">
-    <table>
-      <tr>
-        <th>LN</th>
-        <%= for track_id <- 1..4 do %>
-          <th><div class="track-heading">Track <%= track_id %></div></th>
-        <% end %>
-      </tr>
-      <tr>
-        <td width="20">
-            <div class="track recessed">
-              <%= for line_id <- 1..@length do %>
-                <div class="line">
-                  <%= padded_format(line_id, 2) %><br>
-                </div>
-              <% end %>
+  <table>
+    <tr>
+      <th>LN</th>
+      <%= for track_id <- 0..@tracks-1 do %>
+        <th>
+          <div class='track-heading <%= @selected_track == track_id && "selected" || "" %>'>
+            Track <%= track_id %>
+          </div>
+        </th>
+      <% end %>
+    </tr>
+    <tr>
+      <td width="20">
+        <div class="track recessed">
+          <%= for line_id <- 0..@length-1 do %>
+            <div class='line <%= @position == line_id && "selected" %>'>
+              <%= number_format(line_id, padding: 2, hex: true) %><br>
             </div>
-            </td>
-        <%= for track_id <- 1..4 do %>
-          <td>
-            <div class="track recessed">
-              <%= for line_id <- 1..@length do %>
-                <div class="line">
-                  <div>---</div>
-                  <div>00000</div>
-                </div>
-              <% end %>
-            </div>
-          </td>
-        <% end %>
-      </tr>
-    </table>
+          <% end %>
+        </div>
+      </td>
+      <%= for track_id <- 0..@tracks-1 do %>
+        <td>
+          <div class='track recessed'>
+            <%= for line_id <- 0..@length-1 do %>
+              <div class='line <%= @position == line_id && "selected" %>'>
+                <div><%=
+                  @sequence.notes
+                  |> LiveTracker.Sequence.note_at_position(track_id, line_id)
+                  |> note_format()
+                  %></div>
+                <div>00000</div>
+              </div>
+            <% end %>
+          </div>
+        </td>
+      <% end %>
+    </tr>
+  </table>
 </div>

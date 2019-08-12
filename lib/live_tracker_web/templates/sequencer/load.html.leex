@@ -1,0 +1,25 @@
+
+<div class="files recessed">
+  <%# Placeholders for now. %>
+  <%# # TODO: only pass in sequences instead of all assigns %>
+  <%= for sequence <- assigns.assigns.sequences do %>
+    <div class='file <%= assigns.assigns.load_file_selected_id == sequence.id && "selected" || "" %>'
+         phx-click="select_load_file"
+         phx-value="<%= sequence.id %>"
+         >
+         <%= sequence.id %>  <%= sequence.filename %>
+    </div>
+  <% end %>
+  <%# Raises file not found for demo purposes %>
+  <div class='file <%= assigns.assigns.load_file_selected_id == "1F" && "selected" || "" %>'
+        phx-click="select_load_file"
+        phx-value="1F"
+        class="selected"> 
+        1F  MISSING_CHIP.MOD
+  </div>
+</div>
+
+<div class="buttons">
+  <button phx-click="load">Load</button>
+  <button phx-click="toggle_controls_view" phx-value="load">Cancel</button>
+</div>

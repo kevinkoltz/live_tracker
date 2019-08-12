@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 // We need to import the CSS so that webpack will load it.
 // The MiniCssExtractPlugin is used to separate it out into
 // its own CSS file.
@@ -14,13 +16,9 @@ import "phoenix_html"
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+import socket from "./tone_socket"
 
 import LiveSocket from "phoenix_live_view"
 
 let liveSocket = new LiveSocket("/live")
 liveSocket.connect()
-
-// test test 1 2 3
-let synth = new Tone.Synth().toMaster()
-synth.triggerAttackRelease('C4', '8n')

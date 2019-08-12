@@ -1,10 +1,7 @@
 defmodule LiveTrackerWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :live_tracker
 
-  socket "/socket", LiveTrackerWeb.UserSocket,
-    websocket: true,
-    longpoll: false
-
+  socket "/tone", LiveTrackerWeb.ToneSocket, websocket: true, longpoll: false
   socket "/live", Phoenix.LiveView.Socket
 
   # Serve at "/" the static files from "priv/static" directory.
@@ -15,7 +12,7 @@ defmodule LiveTrackerWeb.Endpoint do
     at: "/",
     from: :live_tracker,
     gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+    only: ~w(css fonts images js favicon.ico robots.txt samples)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

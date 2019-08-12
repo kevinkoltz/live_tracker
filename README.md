@@ -18,6 +18,16 @@ and now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **Live
 
 ![LiveTracker preview](assets/static/images/preview.gif "LiveTracker")
 
+## Overview
+
+LiveTracker is a fun attempt to capture the quirkyness of early [music
+trackers](https://en.wikipedia.org/wiki/Music_tracker). It uses LiveView for the
+user interface, music scheduling and recording. LiveTracker uses a separate
+websocket connection `/tone` to send one-way messages to Tone.js on the client
+side to generate sound in realtime (or close to it). Future support may include
+loading of MOD files as parsing them is currently a work-in-progress
+([lib/mod.ex](lib/mod.ex)).
+
 ## How to play
 
 Notes can be played using built-in keyboard mappings:
@@ -28,9 +38,16 @@ Notes can be played using built-in keyboard mappings:
 
 Select a track (instrument) using the `left` or `right` arrow keys.
 
-## Sample and Font Credits
+## Font and Sample Credits
 
 - [Commodore 64 Pixelized Free Font by Devin Cook](https://www.stockio.com/free-font/commodore-64-pixelized)
+- [Pack of Free 8 Bit, Chippy, Glitchy, Lo-fi Sounds](https://woolyss.com/chipmusic-samples.php?s=THE+FREESOUND+PROJECT+-+Pack+of+Free+8+Bit,+Chippy,+Glitchy,+Lo-fi+Sounds)
+
+## Wishlist
+
+- Support uploading of MOD files
+  - [The Amiga MOD Format](https://www.ocf.berkeley.edu/~eek/index.html/tiny_examples/ptmod/ap12.html)
+  - [MOD Music File Format](https://www.fileformat.info/format/mod/corion.htm)
 
 ## Phrenzy Instructions
 

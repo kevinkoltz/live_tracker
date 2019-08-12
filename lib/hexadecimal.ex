@@ -3,7 +3,8 @@ defmodule Hexadecimal do
   Functions for handling base-16 hexadecimal numbers.
   """
 
-  @type t :: binary()
+  # TODO: limit this to 0-9, A-F
+  @type t :: String.t()
 
   @doc """
   Converts base-10 into hexadecimal.
@@ -21,7 +22,6 @@ defmodule Hexadecimal do
 
   """
   @spec from_base10(binary | integer | Decimal.t()) :: t()
-
   def from_base10(number) do
     number
     |> Decimal.new()

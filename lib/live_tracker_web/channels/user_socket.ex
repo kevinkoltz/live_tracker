@@ -1,8 +1,8 @@
-defmodule LiveTrackerWeb.UserSocket do
+defmodule LiveTrackerWeb.ToneSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", LiveTrackerWeb.RoomChannel
+  channel "tracker:*", LiveTrackerWeb.TrackerChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

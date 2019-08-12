@@ -16,23 +16,45 @@ button {
 body {
   background-color: Black;
   color: White;
+  text-shadow: 1px 1px Grey;
+  width: 1024px;
+  margin: 10px auto;
+}
+
+#tracker-feedback {
+  color: Green;
+  text-shadow: none;
+}
+
+#tracker-feedback>.alert {
+  margin-bottom: 1rem;
+}
+
+#tracker-feedback>.alert.alert-danger {
+  color: Tomato;
 }
 
 #logo {
   font-size: 8px;
-  width: 1024px;
-  margin: 20px auto 10px;
+  margin: 20px 0 10px;
+  text-shadow: 3px 1px Purple;
+}
+
+#tracker-instructions {
+  color: Grey;
+  text-shadow: none;
+  font-weight: 100;
+  margin: 10px 0;
 }
 
 #tracker-container {
   background-color: DarkSlateBlue;
   color: White;
-  width: 1024px;
-  margin: auto;
 }
 
 #tracker-header {
   display: flex;
+  height: 92px;
 }
 
 .track-heading,
@@ -41,13 +63,69 @@ body {
   margin: 4px;
 }
 
-#tracker-transport {
+#tracker-status {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 550px;
-  width: 150px;
+  justify-content: space-between;
+  letter-spacing: 0.12rem;
+}
+
+#tracker-transport>.buttons {
+  margin: 2px;
+}
+
+#tracker-vu-meters {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  align-content: flex-start;
+  justify-content: stretch;
+  flex-grow: 0.55;
+}
+
+#tracker-vu-meters>.vu-meter {
+  flex-grow: 0;
+  background-color: #222;
+  cursor: pointer;
+  height: 31px;
+  width: 140px;
+  margin: 4px 2px 1px 4px;
+  align-self: center;
+}
+
+#tracker-options {
+  display: flex;
+  flex-grow: 1;
+  /* /* align-items: flex-start; */
+}
+
+#tracker-options>.buttons {
+  margin: 2px;
+}
+
+#tracker-options>.files {
+  margin: 3px;
+  background: MidnightBlue;
+
+}
+
+#tracker-options>.files>.file {
+  cursor: pointer;
+  margin: 2px;
+}
+
+#tracker-options>.files>.file.selected {
+  color: White;
+  background: DodgerBlue;
+  text-shadow: none;
+}
+
+.track-heading {
+  color: Grey;
+  text-shadow: -1px -1px Black;
+}
+
+.track-heading.selected {
+  color: White;
 }
 
 #tracker-tracks>table {
@@ -55,9 +133,15 @@ body {
   border-spacing: 2px 2px;
 }
 
+#tracker-tracks th {
+  text-align: left;
+  padding-left: 4px;
+}
+
 .track {
   color: DodgerBlue;
   background-color: MidnightBlue;
+  text-shadow: -1px -1px Black;
 }
 
 .line {
@@ -67,8 +151,14 @@ body {
   letter-spacing: 4px;
 }
 
+.line.selected {
+  color: white;
+  text-shadow: none;
+}
+
 .recording {
   color: red;
+  text-shadow: none;
 }
 
 .embossed {
@@ -85,13 +175,18 @@ body {
   border-right: 2px solid rgba(255, 255, 255, .5);
 }
 
+.buttons {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
 button:active,
 input[type='button']:active,
 input[type='reset']:active,
 input[type='submit']:active {
-  color: #222;
-  text-shadow: 1px 1px White;
-  background-color: LightGrey;
   border-bottom: 2px solid White;
   border-right: 2px solid White;
   border-top: 2px solid Grey;
@@ -122,4 +217,12 @@ input[type='submit'] {
   text-transform: uppercase;
   white-space: nowrap;
   margin: 2px;
+}
+
+.button-disabled {
+  color: Grey;
+}
+
+.button-small {
+  width: 2rem;
 }
