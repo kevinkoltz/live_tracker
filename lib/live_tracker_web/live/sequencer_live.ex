@@ -172,7 +172,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_info({:maybe_play, position}, %{assigns: %{playing: true}} = socket) do
     %{assigns: %{sequence: sequence}} = socket
 
-    for track <- 0..socket.assigns.tracks do
+    for track <- 0..(socket.assigns.tracks - 1) do
       note = Map.get(sequence.notes, {track, position})
 
       if note do
