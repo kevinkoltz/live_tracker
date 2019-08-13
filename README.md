@@ -47,10 +47,19 @@ Notes can be played using built-in keyboard mappings:
 - Multiple users using [Phoenix.Presence](https://hexdocs.pm/phoenix/Phoenix.Presence.html)
   - Ability to record notes from multiple computers simultaneously
 - Support for patterns (series of notes) and song edit (arrangement of patterns)
+- Scale selector (shifts played notes to nearest key in scale)
 - Ability to save sequences (maybe .mods too for export)
+- VU Meters
+  - [Tone.FFT](https://tonejs.github.io/examples/analysis.html)
+  - or, just use a CSS animation when notes are played
 - Support uploading and parsing of MOD files
   - [The Amiga MOD Format](https://www.ocf.berkeley.edu/~eek/index.html/tiny_examples/ptmod/ap12.html)
   - [MOD Music File Format](https://www.fileformat.info/format/mod/corion.htm)
+- Use [GenStage](https://hexdocs.pm/gen_stage/GenStage.html) for sequencing
+  - Broadcast notes, instrument and sample changes to `/tone` socket from separate GenStage consumers
+- Sample/Instrument edit (Tone.js has many [options](https://tonejs.github.io/docs/r13/Sampler))
+- Update status when LiveView loses connection
+- Themes
 
 ## Phrenzy Instructions
 
