@@ -77,4 +77,19 @@ defmodule LiveTracker do
   defp do_load_sequence([%Sequence{id: id} = sequence | _], id), do: {:ok, sequence}
   defp do_load_sequence([_ | t], id), do: do_load_sequence(t, id)
   defp do_load_sequence([], _), do: {:error, :not_found}
+
+  @doc """
+  Records a note into a sequence at given position.
+  """
+  @spec record_note(Sequence.t(), Note.t() | :clear, Note.track_id(), Note.line_id()) ::
+          Sequence.t()
+  def record_note(sequence, :clear, track_id, line_id) do
+    notes = Map.delete(sequence.notes, {track_id, line_id})
+    %Sequence{sequence | notes: notes}
+  end
+
+  def record_note(sequence, note, track_id, line_id) do
+    notes = Map.put(sequence.notes, {track_id, line_id}, note)
+    %Sequence{sequence | notes: notes}
+  end
 end

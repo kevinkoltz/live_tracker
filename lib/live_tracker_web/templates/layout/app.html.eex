@@ -38,7 +38,7 @@
 - Black keys are `w` (C#4), `e` (D#4), `t` (F#4), `y` (G#4), and `u` (A#4).
 - Octave can be shifted up or down using `z` and `x`, respectively.
 - Select a track (instrument) using the `left` or `right` arrow keys.
-- Press spacebar to play or stop playback.
+- Press `m` to clear notes in the selected track (while recording).
 
     </pre>
     </footer>

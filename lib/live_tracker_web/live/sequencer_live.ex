@@ -55,9 +55,12 @@ defmodule LiveTrackerWeb.SequencerLive do
   # TODO: this should temporarily overwrite sequence so both notes do not clobber each other
 
   def handle_event("keydown", key, socket)
-      when key in ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j"] do
-    octave = socket.assigns.octave
+      when key in ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "m"] do
+    %{octave: octave, position: position, selected_track: selected_track} = socket.assigns
+
     note = key_to_note(key, octave)
+
+    send(self(), {:maybe_record, note, selected_track, position})
 
     {:noreply, play_note(socket, note)}
   end
@@ -187,6 +190,18 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:noreply, socket}
   end
 
+  def handle_info({:maybe_record, _, _, _}, %{assigns: %{recording: false}} = socket) do
+    {:noreply, socket}
+  end
+
+  def handle_info({:maybe_record, note, track, position}, %{assigns: %{recording: true}} = socket) do
+    sequence =
+      socket.assigns.sequence
+      |> LiveTracker.record_note(note, track, position)
+
+    {:noreply, socket |> assign(sequence: sequence)}
+  end
+
   ## Transport
 
   defp play(socket), do: assign(socket, playing: true)
@@ -308,4 +323,5 @@ defmodule LiveTrackerWeb.SequencerLive do
   defp key_to_note("u", octave), do: {:Ab, octave}
   defp key_to_note("j", octave), do: {:B, octave}
   defp key_to_note("k", octave), do: {:C, shift_octave(octave, 1)}
+  defp key_to_note("m", _octave), do: :clear
 end
