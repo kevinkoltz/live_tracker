@@ -13,24 +13,12 @@
         <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
         <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       </div>
+
       <div id="tracker-container">
         <%= render @view_module, @view_template, assigns %>
       </div>
     </main>
 
-    <footer>
-    
-    <pre id="tracker-instructions">
-
-- Play white keys C4-C5 with keyboard keys `a`-`k` starting at the 4th octave.
-- Black keys are `w` (C#4), `e` (D#4), `t` (F#4), `y` (G#4), and `u` (A#4).
-- Octave can be shifted up or down using `z` and `x`, respectively.
-- Select a track (instrument) using the `left` or `right` arrow keys.
-- Press `m` to clear notes in the selected track (while recording).
-
-    </pre>
-    </footer>
-    
     <script type="text/javascript" src='<%= Routes.static_path(@conn, "/js/Tone.js") %>'></script>
     <script type="text/javascript" src='<%= Routes.static_path(@conn, "/js/app.js") %>'></script>
   </body>
