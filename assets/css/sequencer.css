@@ -1,0 +1,123 @@
+/* Styles specific to the sequencer page */
+
+#tracker-header {
+  display: grid;
+  grid-template-columns: 128px 128px auto 384px;
+  grid-template-rows: auto;
+  grid-template-areas: "info transport meters options"
+}
+
+#tracker-patterns {
+  display: grid;
+  grid-template-columns: 60% 40%
+}
+
+#tracker-patterns>.lcd {
+  height: 58px;
+  overflow: scroll;
+}
+
+#tracker-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  padding-left: 4px;
+}
+
+#tracker-transport {
+  display: grid;
+}
+
+#tracker-vu-meters {
+  display: grid;
+  grid-area: meters;
+  grid-gap: 2px;
+  grid-template-columns: auto auto;
+  grid-template-rows: 36px 36px;
+}
+
+#tracker-vu-meters>.vu-meter {
+  /* flex-grow: 0; */
+  background-color: #222;
+  cursor: pointer;
+}
+
+#tracker-options {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+}
+
+#tracker-load>.files {
+  margin: 3px;
+  background: MidnightBlue;
+
+}
+
+#tracker-load>.files>.file {
+  cursor: pointer;
+  margin: 2px;
+}
+
+#tracker-load>.files>.file.selected {
+  color: White;
+  background: DodgerBlue;
+  text-shadow: none;
+}
+
+#tracker-status {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.12rem;
+}
+
+#tracker-status>div {
+  margin: 4px;
+}
+
+.track-heading {
+  color: Grey;
+  text-shadow: -1px -1px Black;
+  margin: 4px;
+}
+
+.track-heading.selected {
+  color: White;
+}
+
+#tracker-tracks>table {
+  width: 100%;
+  border-spacing: 2px 2px;
+}
+
+#tracker-tracks th {
+  text-align: left;
+  padding-left: 4px;
+}
+
+
+#tracker-tracks .line {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
+  letter-spacing: 4px;
+}
+
+#tracker-tracks .line.selected,
+#tracker-tracks .pattern.selected {
+  color: white;
+  text-shadow: none;
+}
+
+#tracker-instructions {
+  color: Grey;
+  text-shadow: none;
+  font-weight: 100;
+  margin: 10px 0;
+}
+
+.recording {
+  color: Tomato;
+  text-shadow: none;
+}
