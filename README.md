@@ -12,21 +12,22 @@
 
 Entry for [Phoenix Phrenzy](https://phoenixphrenzy.com) contest.
 
-First there was Amiga [ProTracker](https://en.wikipedia.org/wiki/ProTracker),
-then DOS [FastTracker](https://en.wikipedia.org/wiki/FastTracker_2),
-and now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTracker**.
+First there was Amiga [ProTracker](https://en.wikipedia.org/wiki/ProTracker).
+Then DOS [FastTracker](https://en.wikipedia.org/wiki/FastTracker_2).
+Now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTracker**.
 
-![LiveTracker preview](assets/static/images/preview.gif "LiveTracker")
+![LiveTracker preview](assets/static/images/preview.gif 'LiveTracker')
 
 ## Overview
 
 LiveTracker is a fun attempt to capture the quirkyness of early [music
-trackers](https://en.wikipedia.org/wiki/Music_tracker). It uses LiveView for the
+trackers](https://en.wikipedia.org/wiki/Music_tracker). It uses
+[LiveView](https://github.com/phoenixframework/phoenix_live_view) for the
 user interface, music scheduling and recording. LiveTracker uses a separate
-websocket connection `/tone` to send one-way messages to Tone.js on the client
-side to generate sound in realtime (or close to it). Future support may include
-loading of MOD files as parsing them is currently a work-in-progress
-([lib/mod.ex](lib/mod.ex)).
+websocket connection `/tone` to send one-way messages to
+[Tone.js](https://tonejs.github.io/) on the client side to generate sound in
+realtime (or close to it). Future support may include loading of MOD files as
+parsing them is currently a work-in-progress ([lib/mod.ex](lib/mod.ex)).
 
 ## How to play
 
@@ -36,6 +37,7 @@ Notes can be played using built-in keyboard mappings:
 - Black keys are `w` (`Cb4`), `e` (`Db4`), `t` (`Fb4`), `y` (`Gb4`), and `u` (`Ab4`).
 - Octave can be shifted up or down using `z` and `x`, respectively.
 - Select a track (instrument) using the `left` or `right` arrow keys.
+- Press `m` to clear notes in the selected track (while recording).
 
 ## Font and Sample Credits
 
