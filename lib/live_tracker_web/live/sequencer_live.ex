@@ -15,7 +15,7 @@ defmodule LiveTrackerWeb.SequencerLive do
            length: 16,
            octave: 4,
            current_note: nil,
-           controls_view: "controls",
+           options_view: "options",
            # TODO: look this up after mount is connected.
            sequences: LiveTracker.list_sequences(),
            # Key: {track, line/position}
@@ -75,9 +75,9 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:noreply, socket}
   end
 
-  ## Control Views
+  ## Options Views
 
-  def handle_event("toggle_controls_view", view, socket)
+  def handle_event("toggle_options_view", view, socket)
       when view in [
              "load",
              "save",
@@ -87,7 +87,7 @@ defmodule LiveTrackerWeb.SequencerLive do
              "instrument_edit",
              "pattern_edit",
              "sample_edit",
-             "controls"
+             "options"
            ] do
     case view do
       "save" ->
@@ -109,7 +109,7 @@ defmodule LiveTrackerWeb.SequencerLive do
          |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
 
       view when view in ["load"] ->
-        {:noreply, toggle_controls_view(socket, view)}
+        {:noreply, toggle_options_view(socket, view)}
 
       view ->
         {:stop,
@@ -139,7 +139,7 @@ defmodule LiveTrackerWeb.SequencerLive do
         {:noreply,
          socket
          |> assign(sequence: sequence)
-         |> toggle_controls_view("load")}
+         |> toggle_options_view("load")}
 
       {:error, :not_found} ->
         {:stop,
@@ -302,12 +302,12 @@ defmodule LiveTrackerWeb.SequencerLive do
     socket
   end
 
-  def toggle_controls_view(%{assigns: %{controls_view: view}} = socket, view) do
-    assign(socket, controls_view: "controls")
+  def toggle_options_view(%{assigns: %{options_view: view}} = socket, view) do
+    assign(socket, options_view: "options")
   end
 
-  def toggle_controls_view(socket, view) do
-    assign(socket, controls_view: view)
+  def toggle_options_view(socket, view) do
+    assign(socket, options_view: view)
   end
 
   defp key_to_note("a", octave), do: {:C, octave}

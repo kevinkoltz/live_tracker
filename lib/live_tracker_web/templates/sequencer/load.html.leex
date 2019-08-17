@@ -2,8 +2,8 @@
 <div class="files recessed">
   <%# Placeholders for now. %>
   <%# # TODO: only pass in sequences instead of all assigns %>
-  <%= for sequence <- assigns.assigns.sequences do %>
-    <div class='file <%= assigns.assigns.load_file_selected_id == sequence.id && "selected" || "" %>'
+  <%= for sequence <- @sequences do %>
+    <div class='file <%= @load_file_selected_id == sequence.id && "selected" || "" %>'
          phx-click="select_load_file"
          phx-value="<%= sequence.id %>"
          >
@@ -11,7 +11,7 @@
     </div>
   <% end %>
   <%# Raises file not found for demo purposes %>
-  <div class='file <%= assigns.assigns.load_file_selected_id == "1F" && "selected" || "" %>'
+  <div class='file <%= @load_file_selected_id == "1F" && "selected" || "" %>'
         phx-click="select_load_file"
         phx-value="1F"
         class="selected"> 
@@ -20,6 +20,6 @@
 </div>
 
 <div class="buttons">
-  <button phx-click="load">Load</button>
-  <button phx-click="toggle_controls_view" phx-value="load">Cancel</button>
+  <button phx-click="load" <%= @load_file_selected_id == nil && "disabled" %>>Load</button>
+  <button phx-click="toggle_options_view" phx-value="load">Cancel</button>
 </div>

@@ -34,33 +34,98 @@ body {
   color: Tomato;
 }
 
-#logo {
-  font-size: 8px;
-  margin: 20px 0 10px;
-  text-shadow: 3px 1px Purple;
-}
-
-#tracker-instructions {
-  color: Grey;
-  text-shadow: none;
-  font-weight: 100;
-  margin: 10px 0;
-}
-
 #tracker-container {
   background-color: DarkSlateBlue;
   color: White;
 }
 
 #tracker-header {
-  display: flex;
-  height: 92px;
+  display: grid;
+  grid-template-columns: 128px 128px auto 384px;
+  grid-template-rows: auto;
+  grid-template-areas: "info transport meters options"
 }
 
-.track-heading,
-#tracker-status>div,
-#tracker-info>div {
-  margin: 4px;
+#tracker-logo {
+  display: grid;
+  grid-template-columns: auto 384px;
+}
+
+#tracker-logo>#logo {
+  font-size: 9px;
+  font-weight: bold;
+  margin: 10px 0 0 8px;
+  text-shadow: 3px 1px Purple;
+}
+
+#tracker-patterns {
+  display: grid;
+  grid-template-columns: 60% 40%
+}
+
+#tracker-patterns>.lcd {
+  height: 58px;
+  overflow: scroll;
+}
+
+.vertical-controls {
+  display: flex;
+  flex-direction: column;
+}
+
+.lcd {
+  color: DodgerBlue;
+  background-color: MidnightBlue;
+  text-shadow: -1px -1px Black;
+}
+
+#tracker-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  padding-left: 4px;
+}
+
+#tracker-transport {
+  display: grid;
+}
+
+#tracker-vu-meters {
+  display: grid;
+  grid-area: meters;
+  grid-gap: 2px;
+  grid-template-columns: auto auto;
+  grid-template-rows: 36px 36px;
+}
+
+#tracker-vu-meters>.vu-meter {
+  /* flex-grow: 0; */
+  background-color: #222;
+  cursor: pointer;
+}
+
+#tracker-options {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
+}
+
+#tracker-load>.files {
+  margin: 3px;
+  background: MidnightBlue;
+
+}
+
+#tracker-load>.files>.file {
+  cursor: pointer;
+  margin: 2px;
+}
+
+#tracker-load>.files>.file.selected {
+  color: White;
+  background: DodgerBlue;
+  text-shadow: none;
 }
 
 #tracker-status {
@@ -69,59 +134,14 @@ body {
   letter-spacing: 0.12rem;
 }
 
-#tracker-transport>.buttons {
-  margin: 2px;
-}
-
-#tracker-vu-meters {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: stretch;
-  align-content: flex-start;
-  justify-content: stretch;
-  flex-grow: 0.55;
-}
-
-#tracker-vu-meters>.vu-meter {
-  flex-grow: 0;
-  background-color: #222;
-  cursor: pointer;
-  height: 31px;
-  width: 140px;
-  margin: 4px 2px 1px 4px;
-  align-self: center;
-}
-
-#tracker-options {
-  display: flex;
-  flex-grow: 1;
-  /* /* align-items: flex-start; */
-}
-
-#tracker-options>.buttons {
-  margin: 2px;
-}
-
-#tracker-options>.files {
-  margin: 3px;
-  background: MidnightBlue;
-
-}
-
-#tracker-options>.files>.file {
-  cursor: pointer;
-  margin: 2px;
-}
-
-#tracker-options>.files>.file.selected {
-  color: White;
-  background: DodgerBlue;
-  text-shadow: none;
+#tracker-status>div {
+  margin: 4px;
 }
 
 .track-heading {
   color: Grey;
   text-shadow: -1px -1px Black;
+  margin: 4px;
 }
 
 .track-heading.selected {
@@ -138,12 +158,6 @@ body {
   padding-left: 4px;
 }
 
-.track {
-  color: DodgerBlue;
-  background-color: MidnightBlue;
-  text-shadow: -1px -1px Black;
-}
-
 .line {
   display: flex;
   justify-content: space-between;
@@ -151,13 +165,21 @@ body {
   letter-spacing: 4px;
 }
 
-.line.selected {
+.line.selected,
+.pattern.selected {
   color: white;
   text-shadow: none;
 }
 
+#tracker-instructions {
+  color: Grey;
+  text-shadow: none;
+  font-weight: 100;
+  margin: 10px 0;
+}
+
 .recording {
-  color: red;
+  color: Tomato;
   text-shadow: none;
 }
 
@@ -175,12 +197,8 @@ body {
   border-right: 2px solid rgba(255, 255, 255, .5);
 }
 
-.buttons {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  justify-content: flex-start;
-  align-content: flex-start;
+button:focus {
+  outline: none;
 }
 
 button:active,
@@ -191,6 +209,7 @@ input[type='submit']:active {
   border-right: 2px solid White;
   border-top: 2px solid Grey;
   border-left: 2px solid Grey;
+  outline: none;
 }
 
 button,
@@ -209,20 +228,14 @@ input[type='submit'] {
   border-right: 2px solid Grey;
   cursor: pointer;
   display: inline-block;
-  height: 1.5rem;
   line-height: 1rem;
-  width: 140px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
-  margin: 2px;
 }
 
+button:disabled,
 .button-disabled {
   color: Grey;
-}
-
-.button-small {
-  width: 2rem;
 }

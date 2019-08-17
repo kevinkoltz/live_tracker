@@ -1,4 +1,30 @@
-<div id="tracker-header" phx-keydown="keydown" phx-target="window">
+<div id="tracker-logo" class="embossed">
+  <pre id="logo">
+.___    .___ .___     .____________._.______  .______  ._______ .____/\ ._______.______
+|   |   : __||   |___ : .____/\__ _:|: __   \ :      \ :_.  ___\:   /  \: .____/: __   \
+|   |   | : ||   |   || : _/\   |  :||  \____||   .   ||  : |/\ |.  ___/| : _/\ |  \____|
+|   |/\ |   ||   :   ||   /  \  |   ||   :  \ |   :   ||    /  \|     \ |   /  \|   :  \
+|   /  \|   | \      ||_.: __/  |   ||   |___\|___|   ||. _____/|      \|_.: __/|   |___\
+|______/|___|  \____/    :/     |___||___|        |___| :/      |___\  /   :/   |___|
+                                                        :            \/            v.3030
+  </pre>
+  <div id="tracker-patterns">
+    <div class="lcd recessed">
+      <%= for line_id <- 0..@length-1 do %>
+        <div class='line <%= 3 == line_id && "selected" %>'>
+          <%= number_format(line_id, padding: 2, hex: true) %><br>
+        </div>
+      <% end %>
+    </div>
+    <div class="vertical-controls">
+      <button class="button-arrow">⬆</button>
+      <button class="button-arrow">⬇</button>
+      <button>Ins.</button>
+      <button>Del.</button>
+    </div>
+  </div>
+</div>
+<header id="tracker-header" phx-keydown="keydown" phx-target="window">
   <div id="tracker-info" class="embossed">
     <div>
       POS: <%= number_format(@position, padding: 3, hex: true) %>
@@ -22,12 +48,10 @@
     </div>
   </div>
 
-  <div id="tracker-transport" class="embossed">
-    <div class="buttons">
-      <button phx-click="record">Record</button>
-      <button phx-click="play">Play</button>
-      <button phx-click="stop">Stop</button>
-    </div>
+  <div id="tracker-transport">
+    <button phx-click="record">Record</button>
+    <button phx-click="play">Play</button>
+    <button phx-click="stop">Stop</button>
   </div>
 
   <div id="tracker-vu-meters" class="embossed">
@@ -44,10 +68,18 @@
     <% end %>
   </div>
 
-  <div id="tracker-options" class="embossed">
-    <%= render("#{assigns.controls_view}.html", assigns: assigns) %>
-  </div>
-</div>
+  <%= if assigns.options_view == "options" do %>
+    <div id="tracker-options">
+      <%= render("options.html") %>
+    </div>
+  <% end %>
+
+  <%= if assigns.options_view == "load" do %>
+    <div id="tracker-load">
+      <%= render("load.html", sequences: @sequences, load_file_selected_id: @load_file_selected_id) %>
+    </div>
+  <% end %>
+</header>
 
 <div id="tracker-status" class="embossed">
   <div>FILENAME: <%= @sequence.filename %></div>
@@ -70,7 +102,7 @@
     </tr>
     <tr>
       <td width="20">
-        <div class="track recessed">
+        <div class="track lcd recessed">
           <%= for line_id <- 0..@length-1 do %>
             <div class='line <%= @position == line_id && "selected" %>'>
               <%= number_format(line_id, padding: 2, hex: true) %><br>
@@ -80,7 +112,7 @@
       </td>
       <%= for track_id <- 0..@tracks-1 do %>
         <td>
-          <div class='track recessed'>
+          <div class="track lcd recessed">
             <%= for line_id <- 0..@length-1 do %>
               <div class='line <%= @position == line_id && "selected" %>'>
                 <div><%=
