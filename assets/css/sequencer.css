@@ -1,19 +1,25 @@
 /* Styles specific to the sequencer page */
 
-#tracker-header {
+#tracker-sequencer-header {
+  display: grid;
+  grid-template-columns: auto 384px;
+}
+
+#tracker-subheader {
   display: grid;
   grid-template-columns: 128px 128px auto 384px;
   grid-template-rows: auto;
   grid-template-areas: "info transport meters options"
 }
 
-#tracker-patterns {
+#tracker-users {
   display: grid;
   grid-template-columns: 60% 40%
 }
 
-#tracker-patterns>.lcd {
-  height: 58px;
+#tracker-users .lcd {
+  margin-top: 3px;
+  height: 55px;
   overflow: scroll;
 }
 
@@ -96,25 +102,12 @@
   padding-left: 4px;
 }
 
-
-#tracker-tracks .line {
-  display: flex;
-  justify-content: space-between;
-  margin: 2px;
-  letter-spacing: 4px;
-}
-
-#tracker-tracks .line.selected,
-#tracker-tracks .pattern.selected {
-  color: white;
-  text-shadow: none;
-}
-
 #tracker-instructions {
   color: Grey;
+  background: Black;
   text-shadow: none;
   font-weight: 100;
-  margin: 10px 0;
+  padding: 10px 0;
 }
 
 .recording {

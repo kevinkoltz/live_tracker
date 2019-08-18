@@ -1,13 +1,11 @@
-<div id="tracker-logo" class="embossed">
+<link
+  rel="stylesheet"
+  href='<%= "/css/themes/#{@theme}.css" %>'>
+
+<header id="tracker-sequencer-header" class="embossed">
   <%= LiveTrackerWeb.GlobalView.render("logo.html") %>
-  <div id="tracker-patterns">
-    <div class="lcd recessed">
-      <%= for line_id <- 0..@length-1 do %>
-        <div class='line <%= 3 == line_id && "selected" %>'>
-          <%= number_format(line_id, padding: 2, hex: true) %><br>
-        </div>
-      <% end %>
-    </div>
+  <div id="tracker-users">
+    <%= render("users.html") %>
     <div class="vertical-controls">
       <button class="button-arrow">⬆</button>
       <button class="button-arrow">⬇</button>
@@ -15,28 +13,21 @@
       <button>Del.</button>
     </div>
   </div>
-</div>
-<header id="tracker-header" phx-keydown="keydown" phx-target="window">
+</header>
+
+<section id="tracker-subheader" phx-keydown="keydown" phx-target="window">
   <div id="tracker-info" class="embossed">
     <div>
       POS: <%= number_format(@position, padding: 3, hex: true) %>
-      <%# <button phx-click="record" class="button-small">+</button>
-      <button phx-click="record" class="button-small">-</button> %>
     </div>
     <div>
       PTN: <%= number_format(@pattern, padding: 3, hex: true) %>
-      <%# <button phx-click="record" class="button-small">+</button>
-      <button phx-click="record" class="button-small">-</button> %>
     </div>
     <div>
       BPM: <%= number_format(@bpm, padding: 3) %>
-      <%# <button phx-click="record" class="button-small">+</button>
-      <button phx-click="record" class="button-small">-</button> %>
     </div>
     <div>
       LEN: <%= number_format(@length, padding: 3) %>
-      <%# <button phx-click="record" class="button-small">+</button>
-      <button phx-click="record" class="button-small">-</button> %>
     </div>
   </div>
 
@@ -71,16 +62,16 @@
       <%= render("load.html", sequences: @sequences, load_file_selected_id: @load_file_selected_id) %>
     </div>
   <% end %>
-</header>
+</section>
 
-<div id="tracker-status" class="embossed">
+<section id="tracker-status" class="embossed">
   <div>FILENAME: <%= @sequence.filename %></div>
   <div>SONG NAME: <%= song_name_format(@sequence.name) %></div>
   <%# TODO: update this when server disconnects %>
   <div>STATUS: CLOUDY</div>
-</div>
+</section>
 
-<div id="tracker-tracks" class="embossed">
+<section id="tracker-tracks" class="embossed">
   <table>
     <tr>
       <th>LN</th>
@@ -120,7 +111,7 @@
       <% end %>
     </tr>
   </table>
-</div>
+</section>
 
 <footer>
   <pre id="tracker-instructions">

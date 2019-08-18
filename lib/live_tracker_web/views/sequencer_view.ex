@@ -2,6 +2,7 @@ defmodule LiveTrackerWeb.SequencerView do
   use LiveTrackerWeb, :view
 
   alias LiveTracker.Note
+  alias LiveTrackerWeb.GlobalView
 
   @max_song_name_length 20
 

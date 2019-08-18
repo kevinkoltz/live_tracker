@@ -21,7 +21,8 @@ defmodule LiveTrackerWeb.SequencerLive do
            # Key: {track, line/position}
            # TODO: generate hexadecimal id (max from existing sequences + 1)
            sequence: Sequence.new("FF"),
-           load_file_selected_id: nil
+           load_file_selected_id: nil,
+           theme: "elixir"
 
   def render(assigns), do: SequencerView.render("index.html", assigns)
 

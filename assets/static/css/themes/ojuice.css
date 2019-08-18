@@ -1,0 +1,76 @@
+/*
+
+Ojuice theme
+
+Inspired by:
+https://web.archive.org/web/20040210115042/http://www.ojuice.net/
+
+*/
+
+body {
+  background: #4C4A47;
+}
+
+#tracker-instructions {
+  color: #bbb;
+  background: #4C4A47;
+}
+
+input[type="text"] {
+  background-color: #BDBDBD;
+  color: Black;
+}
+
+#logo {
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+#tracker-container {
+  background-color: #F09937;
+  color: White;
+}
+
+.track-heading {
+  color: #f9dca1;
+  text-shadow: -1px -1px #b58253;
+}
+
+.track-heading.selected {
+  color: White;
+  text-shadow: -1px -1px #774314;
+}
+
+.lcd {
+  color: #774314;
+  background-color: #F6C051;
+  text-shadow: none;
+}
+
+.lcd .line.selected {
+  color: White;
+  text-shadow: 1px 1px #8B8B8B;
+}
+
+button,
+input[type="submit"] {
+  color: White;
+  text-shadow: 2px 2px Black;
+  background-color: #8B8B8B;
+  border-top: 2px solid LightGrey;
+  border-left: 2px solid LightGrey;
+  border-bottom: 2px solid Black;
+  border-right: 2px solid Black;
+}
+
+button:disabled,
+.button-disabled {
+  color: LightGrey;
+  text-shadow: 2px 2px #555;
+}
+
+.recessed {
+  border-top: 2px solid #774314;
+  border-left: 2px solid #774314;
+}

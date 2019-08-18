@@ -7,7 +7,8 @@
 
 a,
 body,
-button {
+button,
+input {
   font-family: 'Commodore Pixelized v1.2', monospace;
 }
 
@@ -17,4 +18,80 @@ body {
   text-shadow: 1px 1px Grey;
   width: 1024px;
   margin: 10px auto;
+}
+
+input[type="text"] {
+  font-size: 18px;
+  height: 24px;
+  border: none;
+  padding: 0 4px;
+  border-top: 2px solid rgba(0, 0, 0, .5);
+  border-left: 2px solid rgba(0, 0, 0, .5);
+  border-bottom: 2px solid rgba(255, 255, 255, .5);
+  border-right: 2px solid rgba(255, 255, 255, .5);
+}
+
+::placeholder {
+  color: White;
+  opacity: 0.5;
+}
+
+button:active,
+input[type='button']:active,
+input[type='reset']:active,
+input[type='submit']:active {
+  border-bottom: 2px solid White;
+  border-right: 2px solid White;
+  border-top: 2px solid Grey;
+  border-left: 2px solid Grey;
+}
+
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  -webkit-appearance: none;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  color: #222;
+  text-shadow: 1px 1px White;
+  background-color: LightGrey;
+  border-top: 2px solid White;
+  border-left: 2px solid White;
+  border-bottom: 2px solid Grey;
+  border-right: 2px solid Grey;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+button:disabled,
+.button-disabled {
+  color: Grey;
+}
+
+button.button-large,
+input.button-large {
+  line-height: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.embossed {
+  border-top: 2px solid rgba(255, 255, 255, .5);
+  border-left: 2px solid rgba(255, 255, 255, .5);
+  border-bottom: 2px solid rgba(0, 0, 0, .5);
+  border-right: 2px solid rgba(0, 0, 0, .5);
+}
+
+.recessed {
+  border-top: 2px solid rgba(0, 0, 0, .5);
+  border-left: 2px solid rgba(0, 0, 0, .5);
+  border-bottom: 2px solid rgba(255, 255, 255, .5);
+  border-right: 2px solid rgba(255, 255, 255, .5);
 }

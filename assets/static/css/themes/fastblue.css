@@ -1,0 +1,75 @@
+/*
+
+Theme inspired by FastTracker II
+
+https://en.wikipedia.org/wiki/FastTracker_2
+
+*/
+
+body {
+  background: #4C4A47;
+}
+
+#tracker-instructions {
+  color: #bbb;
+  background: #4C4A47;
+}
+
+input[type="text"] {
+  background-color: #020406;
+  color: #E5E9EF;
+}
+
+#logo {
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: none;
+}
+
+#tracker-container {
+  background-color: #325582;
+  color: #E5E9EF;
+}
+
+.track-heading {
+  color: #93B8DB;
+  text-shadow: -1px -1px #000;
+}
+
+.track-heading.selected {
+  color: White;
+  text-shadow: -1px -1px #000;
+}
+
+.lcd {
+  color: #93B8DB;
+  background-color: #000;
+  text-shadow: none;
+}
+
+.lcd .line.selected {
+  color: White;
+  text-shadow: 1px 1px #8B8B8B;
+}
+
+button,
+input[type="submit"] {
+  color: #020406;
+  text-shadow: none;
+  background-color: #9696B3;
+  border-top: 2px solid #D2D2D5;
+  border-left: 2px solid #D2D2D5;
+  border-bottom: 2px solid #020406;
+  border-right: 2px solid #020406;
+}
+
+button:disabled,
+.button-disabled {
+  color: LightGrey;
+  text-shadow: 2px 2px #555;
+}
+
+.recessed {
+  border-top: 2px solid #774314;
+  border-left: 2px solid #774314;
+}

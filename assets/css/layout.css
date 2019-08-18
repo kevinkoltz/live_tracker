@@ -1,5 +1,9 @@
 /* Styles of global elements */
 
+header {
+  height: 84px;
+}
+
 #tracker-feedback {
   color: Green;
   text-shadow: none;
@@ -13,21 +17,10 @@
   color: Tomato;
 }
 
-#tracker-container {
-  background-color: DarkSlateBlue;
-  color: White;
-}
-
-#tracker-logo {
-  display: grid;
-  grid-template-columns: auto 384px;
-}
-
-#tracker-logo>#logo {
+#logo {
   font-size: 9px;
   font-weight: bold;
   margin: 10px 0 0 8px;
-  text-shadow: 3px 1px Purple;
 }
 
 .vertical-controls {
@@ -41,59 +34,18 @@
   text-shadow: -1px -1px Black;
 }
 
-.embossed {
-  border-top: 2px solid rgba(255, 255, 255, .5);
-  border-left: 2px solid rgba(255, 255, 255, .5);
-  border-bottom: 2px solid rgba(0, 0, 0, .5);
-  border-right: 2px solid rgba(0, 0, 0, .5);
+.lcd .line {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
+  letter-spacing: 4px;
 }
 
-.recessed {
-  border-top: 2px solid rgba(0, 0, 0, .5);
-  border-left: 2px solid rgba(0, 0, 0, .5);
-  border-bottom: 2px solid rgba(255, 255, 255, .5);
-  border-right: 2px solid rgba(255, 255, 255, .5);
+.lcd .line.selected {
+  color: white;
+  text-shadow: none;
 }
 
-button:focus {
-  outline: none;
-}
-
-button:active,
-input[type='button']:active,
-input[type='reset']:active,
-input[type='submit']:active {
-  border-bottom: 2px solid White;
-  border-right: 2px solid White;
-  border-top: 2px solid Grey;
-  border-left: 2px solid Grey;
-  outline: none;
-}
-
-button,
-input[type='button'],
-input[type='reset'],
-input[type='submit'] {
-  -webkit-appearance: none;
-  border-radius: 0px;
-  -webkit-border-radius: 0px;
-  color: #222;
-  text-shadow: 1px 1px White;
-  background-color: LightGrey;
-  border-top: 2px solid White;
-  border-left: 2px solid White;
-  border-bottom: 2px solid Grey;
-  border-right: 2px solid Grey;
-  cursor: pointer;
-  display: inline-block;
-  line-height: 1rem;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-button:disabled,
-.button-disabled {
-  color: Grey;
+.username {
+  letter-spacing: 0;
 }

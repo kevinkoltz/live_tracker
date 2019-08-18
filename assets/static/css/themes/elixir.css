@@ -1,0 +1,20 @@
+/* Elixir theme */
+
+input[type="text"] {
+  background-color: DodgerBlue;
+  color: White;
+}
+
+#logo {
+  text-shadow: 3px 1px Purple;
+}
+
+#tracker-container {
+  background-color: DarkSlateBlue;
+  color: E5E9EF;
+}
+
+button,
+input[type="submit"] {
+  background-color: LightGrey;
+}
