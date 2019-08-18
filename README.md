@@ -1,18 +1,18 @@
 # LiveTracker
 
 ```text
-.___    .___ .___     .____________._.______  .______  ._______ .____/\ ._______.______
-|   |   : __||   |___ : .____/\__ _:|: __   \ :      \ :_.  ___\:   /  \: .____/: __   \
-|   |   | : ||   |   || : _/\   |  :||  \____||   .   ||  : |/\ |.  ___/| : _/\ |  \____|
-|   |/\ |   ||   :   ||   /  \  |   ||   :  \ |   :   ||    /  \|     \ |   /  \|   :  \
-|   /  \|   | \      ||_.: __/  |   ||   |___\|___|   ||. _____/|      \|_.: __/|   |___\
-|______/|___|  \____/    :/     |___||___|        |___| :/      |___\  /   :/   |___|
-                                                        :            \/             v.3030
+.___   .___ ___    .____________._._____ .______ ._______ .____/\._______._____
+:   |  : __|:  |___: ._____\__ _:: __   \:   _  \:_.  ___\:   /  \ .____/ __   \
+|   |  | : |   |   | : _/\   |  :|  \____|   .   |  : |/\ |.  ___/ : _/\|  \____|
+|   |/\|   |   :   |   /  \  |   |   :  \|   :   |    /  \|     \|   /  \   :  \
+|   /  \   |\      |_.: __/  |   |   |___\___|   |. _____/|      \_.: __/   |___\
+|______/___| \____/   :/     |___|___|       |___|:/      |___\  /  :/  |___|
+                                                  :            \/           v.3030
 ```
 
 Entry for [Phoenix Phrenzy](https://phoenixphrenzy.com) contest.
 
-First there was Amiga [ProTracker](https://en.wikipedia.org/wiki/ProTracker).
+First there was Amiga [Soundtracker](https://en.wikipedia.org/wiki/Ultimate_Soundtracker) and [ProTracker](https://en.wikipedia.org/wiki/ProTracker).
 Then DOS [FastTracker](https://en.wikipedia.org/wiki/FastTracker_2).
 Now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTracker**.
 
