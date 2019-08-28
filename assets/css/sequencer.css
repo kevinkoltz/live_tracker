@@ -12,13 +12,9 @@
   grid-template-areas: "info transport meters options"
 }
 
-#tracker-users {
-  display: grid;
-  grid-template-columns: 60% 40%
-}
-
 #tracker-users .lcd {
   margin-top: 3px;
+  margin-right: 3px;
   height: 55px;
   overflow: scroll;
 }

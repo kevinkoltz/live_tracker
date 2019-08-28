@@ -5,15 +5,13 @@ defmodule LiveTracker.Application do
 
   use Application
 
+  alias LiveTrackerWeb.Endpoint
+
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      LiveTracker.Repo,
-      # Start the endpoint when the application starts
+      LiveTracker.Sessions.Supervisor,
       LiveTrackerWeb.Endpoint
-      # Starts a worker by calling: LiveTracker.Worker.start_link(arg)
-      # {LiveTracker.Worker, arg},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -25,7 +23,7 @@ defmodule LiveTracker.Application do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    LiveTrackerWeb.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

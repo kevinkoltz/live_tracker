@@ -61,6 +61,7 @@ input[type="submit"] {
   border-left: 2px solid #D2D2D5;
   border-bottom: 2px solid #020406;
   border-right: 2px solid #020406;
+  border-radius: 3px;
 }
 
 button:disabled,
@@ -70,6 +71,6 @@ button:disabled,
 }
 
 .recessed {
-  border-top: 2px solid #774314;
-  border-left: 2px solid #774314;
+  border-top: 2px solid #4b5e71;
+  border-left: 2px solid #4b5e71;
 }

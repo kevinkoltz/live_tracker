@@ -5,7 +5,7 @@
       <div class='line <%= 0 == line_id && "selected" %>'>
         <%= number_format(line_id, padding: 2, hex: true) %><br>
         <div class="username">
-          01234567891234
+          <%= @username %>
         </div>
       </div>
     <% end %>

@@ -2,8 +2,9 @@ defmodule LiveTrackerWeb.SequencerLive do
   use Phoenix.LiveView
 
   alias LiveTracker.Sequence
-  alias LiveTrackerWeb.SequencerView
+  alias LiveTracker.Sessions.SessionStore
   alias LiveTrackerWeb.Router.Helpers, as: Routes
+  alias LiveTrackerWeb.SequencerView
 
   @initial bpm: 200,
            playing: false,
@@ -26,8 +27,14 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   def render(assigns), do: SequencerView.render("index.html", assigns)
 
-  def mount(_session, socket) do
-    updated_socket = assign(socket, @initial)
+  def mount(%{session_id: session_id} = _session, socket) do
+    {:ok, session} = SessionStore.get(session_id)
+
+    updated_socket =
+      socket
+      |> assign(@initial)
+      |> assign(theme: session.theme)
+      |> assign(username: session.username)
 
     if connected?(socket) do
       schedule_tick(updated_socket)
@@ -159,6 +166,11 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   def handle_event("upload", _, _socket), do: {:error, "Not implemented"}
   def handle_event("save", _, _socket), do: {:error, "Not implemented"}
+
+  def handle_event("settings", _, socket) do
+    # TODO: Prompt to save
+    {:stop, redirect(socket, to: Routes.live_path(socket, LiveTrackerWeb.SettingsLive))}
+  end
 
   # def handle_event(event, message, socket) do
   #   IO.inspect({event, message}, label: "event not handled")

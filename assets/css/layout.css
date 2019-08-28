@@ -4,6 +4,25 @@ header {
   height: 84px;
 }
 
+form.form-horizontal {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 16px;
+}
+
+form.form-horizontal .control-label {
+  grid-column: 1 / 2;
+  justify-self: flex-end;
+}
+
+form.form-horizontal .control {
+  grid-column: 2 / 3;
+}
+
+form.form-horizontal .control.control-flex {
+  display: flex;
+}
+
 #tracker-feedback {
   color: Green;
   text-shadow: none;

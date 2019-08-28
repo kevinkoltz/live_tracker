@@ -5,13 +5,7 @@
 <header id="tracker-sequencer-header" class="embossed">
   <%= LiveTrackerWeb.GlobalView.render("logo.html") %>
   <div id="tracker-users">
-    <%= render("users.html") %>
-    <div class="vertical-controls">
-      <button class="button-arrow">⬆</button>
-      <button class="button-arrow">⬇</button>
-      <button>Ins.</button>
-      <button>Del.</button>
-    </div>
+    <%= render("users.html", username: @username) %>
   </div>
 </header>
 

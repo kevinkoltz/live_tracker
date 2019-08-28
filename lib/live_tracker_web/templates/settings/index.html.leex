@@ -1,0 +1,60 @@
+<link
+  rel="stylesheet"
+  href='<%= "/css/themes/#{@selected_theme}.css" %>'>
+
+<header class="embossed">
+  <%= LiveTrackerWeb.GlobalView.render("logo.html") %>
+</header>
+
+<div id="tracker-username-selector" class="embossed">
+  <%= f = form_for( @changeset, "#", [phx_change: :change, phx_submit: :save, class: "form-horizontal"]) %>
+
+    <%= label f, :username, class: "control-label" do %>
+      Handle
+    <% end %>
+    <div class="control control-flex">
+      <%= text_input f, :username %>
+      <button phx-click="generate_handle" class="button-large">Generate</button>
+      <%= error_tag f, :username %>
+    </div>
+
+    <div class="control-label">Theme</div>
+    <div class="control">
+      <%# TODO: look into why this is not working, radio buttons do not stay checked %>
+      <%# inspect @themes %>
+      <%# for theme <- @themes do %>
+        <%# <div> %>
+          <%# radio_button(f, :theme, theme.slug) %>
+          <%# label f, :"theme_#{slug}", class: "control-label" do %>
+            <%# name %>
+          <%# end %>
+        <%# </div> %>
+      <%# end %>
+      <div>
+        <%= radio_button(f, :theme, "elixir") %>
+        <%= label f, :theme_elixir, class: "control-label" do %>
+          Elixir
+        <% end %>
+      </div>
+
+      <div>
+        <%= radio_button(f, :theme, "ojuice") %>
+        <%= label f, :theme_ojuice, class: "control-label" do %>
+          Ojuice
+        <% end %>
+      </div>
+
+      <div>
+        <%= radio_button(f, :theme, "fastblue") %>
+        <%= label f, :theme_fastblue, class: "control-label" do %>
+          FastBlue
+        <% end %>
+      </div>
+
+    </div>
+
+    <div class="control">
+      <input type="submit" value="Next" class="button-large">
+    </div>
+  </form>
+</div>

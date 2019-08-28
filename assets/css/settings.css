@@ -1,0 +1,6 @@
+#tracker-username-selector {
+  display: grid;
+  align-content: center;
+  justify-content: start;
+  height: 250px;
+}
