@@ -1,13 +1,13 @@
 
 <div class="files recessed">
   <%# Placeholders for now. %>
-  <%# # TODO: only pass in sequences instead of all assigns %>
-  <%= for sequence <- @sequences do %>
-    <div class='file <%= @load_file_selected_id == sequence.id && "selected" || "" %>'
+  <%# # TODO: only pass in tunes instead of all assigns %>
+  <%= for tune <- @tunes do %>
+    <div class='file <%= @load_file_selected_id == tune.id && "selected" || "" %>'
          phx-click="select_load_file"
-         phx-value="<%= sequence.id %>"
+         phx-value="<%= tune.id %>"
          >
-         <%= sequence.id %>  <%= sequence.filename %>
+         <%= tune.id %>  <%= tune.filename %>
     </div>
   <% end %>
   <%# Raises file not found for demo purposes %>

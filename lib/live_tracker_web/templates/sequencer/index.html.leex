@@ -53,14 +53,14 @@
 
   <%= if assigns.options_view == "load" do %>
     <div id="tracker-load">
-      <%= render("load.html", sequences: @sequences, load_file_selected_id: @load_file_selected_id) %>
+      <%= render("load.html", tunes: @tunes, load_file_selected_id: @load_file_selected_id) %>
     </div>
   <% end %>
 </section>
 
 <section id="tracker-status" class="embossed">
-  <div>FILENAME: <%= @sequence.filename %></div>
-  <div>SONG NAME: <%= song_name_format(@sequence.name) %></div>
+  <div>FILENAME: <%= @tune.filename %></div>
+  <div>SONG NAME: <%= song_name_format(@tune.name) %></div>
   <%# TODO: update this when server disconnects %>
   <div>STATUS: CLOUDY</div>
 </section>
@@ -93,8 +93,8 @@
             <%= for line_id <- 0..@length-1 do %>
               <div class='line <%= @position == line_id && "selected" %>'>
                 <div><%=
-                  @sequence.notes
-                  |> LiveTracker.Sequence.note_at_position(track_id, line_id)
+                  @tune.notes
+                  |> LiveTracker.Tunes.Tune.note_at_position(track_id, line_id)
                   |> note_format()
                   %></div>
                 <div>00000</div>

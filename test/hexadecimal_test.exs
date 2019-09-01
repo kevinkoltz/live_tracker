@@ -1,4 +1,5 @@
 defmodule HexadecimalTest do
+  @moduledoc false
   use ExUnit.Case, async: true
   doctest Hexadecimal
 

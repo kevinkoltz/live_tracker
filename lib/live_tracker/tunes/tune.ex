@@ -1,6 +1,6 @@
-defmodule LiveTracker.Sequence do
+defmodule LiveTracker.Tunes.Tune do
   @moduledoc """
-  Date structure for a sequence of notes.
+  Date structure for a song and it's sequence of notes.
   """
 
   defstruct id: nil, name: nil, filename: nil, notes: %{}
@@ -24,7 +24,7 @@ defmodule LiveTracker.Sequence do
         }
 
   @doc """
-  Returns a new sequence.
+  Returns a new tune.
   """
   @spec new(filename, name) :: t
   # TODO: UNTITLED02.. UNTITLED03..
@@ -36,7 +36,7 @@ defmodule LiveTracker.Sequence do
   Returns a note at a specific position (line) for a given track.
   """
   @spec note_at_position(t, track_id, line_id) :: Note.t()
-  def note_at_position(sequence, track_id, line_id) do
-    Map.get(sequence, {track_id, line_id})
+  def note_at_position(tune, track_id, line_id) do
+    Map.get(tune, {track_id, line_id})
   end
 end

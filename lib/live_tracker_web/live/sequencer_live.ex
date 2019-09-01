@@ -1,8 +1,10 @@
 defmodule LiveTrackerWeb.SequencerLive do
+  @moduledoc false
   use Phoenix.LiveView
 
-  alias LiveTracker.Sequence
   alias LiveTracker.Sessions.SessionStore
+  alias LiveTracker.Tunes
+  alias LiveTracker.Tunes.Tune
   alias LiveTrackerWeb.Router.Helpers, as: Routes
   alias LiveTrackerWeb.SequencerView
 
@@ -18,10 +20,10 @@ defmodule LiveTrackerWeb.SequencerLive do
            current_note: nil,
            options_view: "options",
            # TODO: look this up after mount is connected.
-           sequences: LiveTracker.list_sequences(),
+           tunes: Tunes.list_tunes(),
            # Key: {track, line/position}
-           # TODO: generate hexadecimal id (max from existing sequences + 1)
-           sequence: Sequence.new("FF"),
+           # TODO: generate hexadecimal id (max from existing tunes + 1)
+           tune: Tune.new("FF"),
            load_file_selected_id: nil,
            theme: "elixir"
 
@@ -35,6 +37,7 @@ defmodule LiveTrackerWeb.SequencerLive do
       |> assign(@initial)
       |> assign(theme: session.theme)
       |> assign(username: session.username)
+      |> assign(current_song_id: session.current_song_id)
 
     if connected?(socket) do
       schedule_tick(updated_socket)
@@ -60,7 +63,7 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   ## Keyboard notes
 
-  # TODO: this should temporarily overwrite sequence so both notes do not clobber each other
+  # TODO: this should temporarily overwrite tune so both notes do not clobber each other
 
   def handle_event("keydown", key, socket)
       when key in ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "m"] do
@@ -135,18 +138,18 @@ defmodule LiveTrackerWeb.SequencerLive do
   # TODO: move these into child liveviews?
 
   def handle_event("new", _, socket) do
-    {:noreply, assign(socket, sequence: Sequence.new("FF"))}
+    {:noreply, assign(socket, tune: Tune.new("FF"))}
   end
 
   def handle_event("load", _, socket) do
     id = socket.assigns.load_file_selected_id
 
-    # TODO: load from saved sequences
-    case LiveTracker.load_sequence(id) do
-      {:ok, sequence} ->
+    # TODO: load from saved tunes
+    case Tunes.load_tune(id) do
+      {:ok, tune} ->
         {:noreply,
          socket
-         |> assign(sequence: sequence)
+         |> assign(tune: tune)
          |> toggle_options_view("load")}
 
       {:error, :not_found} ->
@@ -186,10 +189,10 @@ defmodule LiveTrackerWeb.SequencerLive do
   end
 
   def handle_info({:maybe_play, position}, %{assigns: %{playing: true}} = socket) do
-    %{assigns: %{sequence: sequence}} = socket
+    %{assigns: %{tune: tune}} = socket
 
     for track <- 0..(socket.assigns.tracks - 1) do
-      note = Map.get(sequence.notes, {track, position})
+      note = Map.get(tune.notes, {track, position})
 
       if note do
         play_note(socket, note, track: track)
@@ -208,11 +211,11 @@ defmodule LiveTrackerWeb.SequencerLive do
   end
 
   def handle_info({:maybe_record, note, track, position}, %{assigns: %{recording: true}} = socket) do
-    sequence =
-      socket.assigns.sequence
-      |> LiveTracker.record_note(note, track, position)
+    tune =
+      socket.assigns.tune
+      |> Tunes.record_note(note, track, position)
 
-    {:noreply, socket |> assign(sequence: sequence)}
+    {:noreply, socket |> assign(tune: tune)}
   end
 
   ## Transport
