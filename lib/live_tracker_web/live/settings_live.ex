@@ -66,9 +66,6 @@ defmodule LiveTrackerWeb.SettingsLive do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
-
-      _ ->
-        {:noreply, socket}
     end
   end
 

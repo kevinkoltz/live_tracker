@@ -45,6 +45,7 @@ defmodule LiveTracker.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 0.5", only: [:dev, :test]},
+      {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
       {:calendar, "~> 0.17.6"}
     ]

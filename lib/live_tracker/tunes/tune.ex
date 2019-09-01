@@ -5,7 +5,7 @@ defmodule LiveTracker.Tunes.Tune do
 
   defstruct id: nil, name: nil, filename: nil, notes: %{}
 
-  alias LiveTracker.Note
+  alias LiveTracker.Tunes.Note
 
   @type id :: Hexadecimal.t()
   @type name :: String.t()

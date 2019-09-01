@@ -3,7 +3,7 @@ defmodule LiveTracker.Tunes do
   Context module for loading and updating tunes (`LiveTracker.Tunes.Tune`).
   """
 
-  alias LiveTracker.Tunes.Tune
+  alias LiveTracker.Tunes.{Note, Tune}
 
   @doc """
   List saved tunes.
@@ -77,7 +77,7 @@ defmodule LiveTracker.Tunes do
   @doc """
   Records a note into a tune at given position.
   """
-  @spec record_note(Tune.t(), Note.t() | :clear, Note.track_id(), Note.line_id()) ::
+  @spec record_note(Tune.t(), Note.t() | :clear, Tune.track_id(), Tune.line_id()) ::
           Tune.t()
   def record_note(tune, :clear, track_id, line_id) do
     notes = Map.delete(tune.notes, {track_id, line_id})

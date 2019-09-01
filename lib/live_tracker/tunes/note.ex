@@ -1,4 +1,4 @@
-defmodule LiveTracker.Note do
+defmodule LiveTracker.Tunes.Note do
   @moduledoc """
   Date structure for representing an instance of a note to be played.
 

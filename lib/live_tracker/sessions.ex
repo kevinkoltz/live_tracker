@@ -6,7 +6,7 @@ defmodule LiveTracker.Sessions do
   alias LiveTracker.Sessions.{Session, SessionStore}
 
   @spec create_session(Ecto.Changeset.t(), map) ::
-          {:ok, LiveTracker.Session.t()} | {:error, Ecto.Changeset.t()}
+          {:ok, Session.t()} | {:error, Ecto.Changeset.t()}
   def create_session(changeset, attrs \\ %{}) do
     with result <- change_session(changeset, attrs),
          %{valid?: true} <- result,
