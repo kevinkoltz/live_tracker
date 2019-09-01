@@ -75,7 +75,7 @@ defmodule LiveTracker.Tunes do
   defp do_load_tune([], _), do: {:error, :not_found}
 
   @doc """
-  Records a note into a tune at given position.
+  Records a note into a tune at given step.
   """
   @spec record_note(Tune.t(), Note.t() | :clear, Tune.track_id(), Tune.line_id()) ::
           Tune.t()
@@ -87,5 +87,12 @@ defmodule LiveTracker.Tunes do
   def record_note(tune, note, track_id, line_id) do
     notes = Map.put(tune.notes, {track_id, line_id}, note)
     %Tune{tune | notes: notes}
+  end
+
+  @doc """
+  Allow song playback syncing between multiple browser sessions.
+  """
+  def subscribe("clock:" <> song_id) when is_binary(song_id) do
+    Phoenix.PubSub.subscribe(LiveTracker.PubSub, "clock:" <> song_id)
   end
 end

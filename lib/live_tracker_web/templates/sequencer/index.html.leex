@@ -12,7 +12,7 @@
 <section id="tracker-subheader" phx-keydown="keydown" phx-target="window">
   <div id="tracker-info" class="embossed">
     <div>
-      POS: <%= number_format(@position, padding: 3, hex: true) %>
+      POS: <%= number_format(@song_position, padding: 3, hex: true) %>
     </div>
     <div>
       PTN: <%= number_format(@pattern, padding: 3, hex: true) %>
@@ -21,13 +21,17 @@
       BPM: <%= number_format(@bpm, padding: 3) %>
     </div>
     <div>
-      LEN: <%= number_format(@length, padding: 3) %>
+      LEN: <%= number_format(@pattern_length, padding: 3) %>
     </div>
   </div>
 
   <div id="tracker-transport">
     <button phx-click="record">Record</button>
-    <button phx-click="play">Play</button>
+    <%= unless @playing do %>
+      <button phx-click="play">Play</button>
+    <% else %>
+      <button phx-click="play" disabled="disabled">Playing</button>
+    <% end %>
     <button phx-click="stop">Stop</button>
   </div>
 
@@ -80,8 +84,8 @@
     <tr>
       <td width="20">
         <div class="track lcd recessed">
-          <%= for line_id <- 0..@length-1 do %>
-            <div class='line <%= @position == line_id && "selected" %>'>
+          <%= for line_id <- 0..@pattern_length-1 do %>
+            <div class='line <%= @pattern_step == line_id && "selected" %>'>
               <%= number_format(line_id, padding: 2, hex: true) %><br>
             </div>
           <% end %>
@@ -90,11 +94,11 @@
       <%= for track_id <- 0..@tracks-1 do %>
         <td>
           <div class="track lcd recessed">
-            <%= for line_id <- 0..@length-1 do %>
-              <div class='line <%= @position == line_id && "selected" %>'>
+            <%= for line_id <- 0..@pattern_length-1 do %>
+              <div class='line <%= @pattern_step == line_id && "selected" %>'>
                 <div><%=
                   @tune.notes
-                  |> LiveTracker.Tunes.Tune.note_at_position(track_id, line_id)
+                  |> LiveTracker.Tunes.Tune.note_at_step(track_id, line_id)
                   |> note_format()
                   %></div>
                 <div>00000</div>

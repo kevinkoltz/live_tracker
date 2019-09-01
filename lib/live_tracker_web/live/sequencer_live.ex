@@ -2,6 +2,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   @moduledoc false
   use Phoenix.LiveView
 
+  alias LiveTracker.Clock
   alias LiveTracker.Sessions.SessionStore
   alias LiveTracker.Tunes
   alias LiveTracker.Tunes.Tune
@@ -11,18 +12,16 @@ defmodule LiveTrackerWeb.SequencerLive do
   @initial bpm: 200,
            playing: false,
            recording: false,
-           position: 0,
+           song_position: 0,
            pattern: 254,
+           pattern_length: 16,
+           pattern_step: 0,
            tracks: 4,
            selected_track: 1,
-           length: 16,
            octave: 4,
            current_note: nil,
            options_view: "options",
-           # TODO: look this up after mount is connected.
-           tunes: Tunes.list_tunes(),
-           # Key: {track, line/position}
-           # TODO: generate hexadecimal id (max from existing tunes + 1)
+           tunes: [],
            tune: Tune.new("FF"),
            load_file_selected_id: nil,
            theme: "elixir"
@@ -37,10 +36,16 @@ defmodule LiveTrackerWeb.SequencerLive do
       |> assign(@initial)
       |> assign(theme: session.theme)
       |> assign(username: session.username)
+      # TODO: update this to be an instance of a song (song session id)
       |> assign(current_song_id: session.current_song_id)
+      |> assign(stunes: Tunes.list_tunes())
 
     if connected?(socket) do
-      schedule_tick(updated_socket)
+      Tunes.subscribe("clock:#{session.current_song_id}")
+
+      if Clock.lookup_pid(session.current_song_id) == nil do
+        Clock.start_link(session.current_song_id, bpm: @initial[:bpm])
+      end
     end
 
     {:ok, updated_socket}
@@ -49,7 +54,6 @@ defmodule LiveTrackerWeb.SequencerLive do
   ## Transport
 
   def handle_event("play", _, socket), do: {:noreply, play(socket)}
-  def handle_event("keydown", " ", socket), do: {:noreply, toggle_playing(socket)}
   def handle_event("stop", _, socket), do: {:noreply, stop(socket)}
   def handle_event("record", _, socket), do: {:noreply, record(socket)}
 
@@ -67,11 +71,13 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   def handle_event("keydown", key, socket)
       when key in ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "m"] do
-    %{octave: octave, position: position, selected_track: selected_track} = socket.assigns
+    %{octave: octave, pattern_step: pattern_step, selected_track: selected_track} = socket.assigns
 
     note = key_to_note(key, octave)
 
-    send(self(), {:maybe_record, note, selected_track, position})
+    # TODO: debounce to prevent duplicate repeated notes, quantize amount of
+    # time to duration between steps?
+    send(self(), {:maybe_record, note, selected_track, pattern_step})
 
     {:noreply, play_note(socket, note)}
   end
@@ -81,10 +87,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_event("keydown", "z", socket), do: {:noreply, change_octave(socket, :down)}
   def handle_event("keydown", "x", socket), do: {:noreply, change_octave(socket, :up)}
 
-  def handle_event("keydown", keydown, socket) do
-    IO.inspect(keydown, label: "keydown")
-    {:noreply, socket}
-  end
+  def handle_event("keydown", _keydown, socket), do: {:noreply, socket}
 
   ## Options Views
 
@@ -175,78 +178,71 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:stop, redirect(socket, to: Routes.live_path(socket, LiveTrackerWeb.SettingsLive))}
   end
 
-  # def handle_event(event, message, socket) do
-  #   IO.inspect({event, message}, label: "event not handled")
-  #   {:noreply, socket}
-  # end
+  def handle_info({:clock, clock}, socket) do
+    pattern_step = rem(clock.song_position, socket.assigns.pattern_length)
 
-  def handle_info(:tick, socket) do
-    # Sending async message to play notes to help prevent any delays in timing.
-    # TODO: Look into using GenStage for handling the sequencing and
-    # broadcasting of notes to the Tone.js socket from GenStage consumers.
-    send(self(), {:maybe_play, socket.assigns.position})
-    {:noreply, socket |> schedule_tick() |> advance()}
-  end
-
-  def handle_info({:maybe_play, position}, %{assigns: %{playing: true}} = socket) do
-    %{assigns: %{tune: tune}} = socket
-
-    for track <- 0..(socket.assigns.tracks - 1) do
-      note = Map.get(tune.notes, {track, position})
-
-      if note do
-        play_note(socket, note, track: track)
-      end
-    end
-
-    {:noreply, socket}
-  end
-
-  def handle_info({:maybe_play, _}, %{assigns: %{playing: false}} = socket) do
-    {:noreply, socket}
+    {:noreply,
+     socket
+     |> assign(Map.take(clock, [:bpm, :playing, :time, :song_position]))
+     |> assign(pattern_step: pattern_step)
+     |> maybe_play_notes()}
   end
 
   def handle_info({:maybe_record, _, _, _}, %{assigns: %{recording: false}} = socket) do
     {:noreply, socket}
   end
 
-  def handle_info({:maybe_record, note, track, position}, %{assigns: %{recording: true}} = socket) do
+  def handle_info(
+        {:maybe_record, note, track, pattern_step},
+        %{assigns: %{recording: true}} = socket
+      ) do
     tune =
       socket.assigns.tune
-      |> Tunes.record_note(note, track, position)
+      |> Tunes.record_note(note, track, pattern_step)
 
     {:noreply, socket |> assign(tune: tune)}
   end
 
   ## Transport
 
-  defp play(socket), do: assign(socket, playing: true)
-  defp toggle_playing(socket), do: assign(socket, playing: !socket.assigns.playing)
-
-  defp stop(%{assigns: %{playing: false, position: position}} = socket) when position > 0 do
+  defp play(socket) do
+    Clock.play(socket.assigns.current_song_id)
     socket
-    |> reset_position()
-    |> stop()
   end
 
-  defp stop(socket), do: assign(socket, playing: false, recording: false)
+  defp stop(socket) do
+    Clock.stop(socket.assigns.current_song_id)
+    assign(socket, recording: false)
+  end
 
-  defp record(%{assigns: %{playing: false}} = socket), do: socket |> toggle_recording() |> play()
-  defp record(%{assigns: %{playing: true}} = socket), do: socket |> toggle_recording()
+  defp record(%{assigns: %{recording: true, playing: true}} = socket),
+    do: socket |> toggle_recording() |> stop()
 
-  def toggle_recording(socket), do: assign(socket, recording: !socket.assigns.recording)
+  defp record(%{assigns: %{recording: false, playing: false}} = socket),
+    do: socket |> toggle_recording() |> play()
 
-  defp advance(%{assigns: %{playing: false}} = socket), do: socket
+  defp record(%{assigns: %{recording: false, playing: true}} = socket),
+    do: socket |> toggle_recording()
 
-  defp advance(%{assigns: %{position: position, length: length}} = socket)
-       when position + 1 == length,
-       do: reset_position(socket)
-
-  defp advance(socket), do: update(socket, :position, &(&1 + 1))
-
-  defp reset_position(socket), do: socket |> assign(position: @initial[:position])
+  defp toggle_recording(socket), do: assign(socket, recording: !socket.assigns.recording)
 
   ## Notes
+
+  defp maybe_play_notes(%{assigns: %{playing: true}} = socket) do
+    %{tune: tune, tracks: tracks, pattern_step: pattern_step} = socket.assigns
+
+    for track <- 0..(tracks - 1) do
+      note = Map.get(tune.notes, {track, pattern_step})
+
+      if note do
+        play_note(socket, note, track: track)
+      end
+    end
+
+    socket
+  end
+
+  defp maybe_play_notes(%{assigns: %{playing: false}} = socket), do: socket
 
   defp change_octave(socket, :up),
     do: assign(socket, :octave, shift_octave(socket.assigns.octave, 1))
@@ -311,12 +307,6 @@ defmodule LiveTrackerWeb.SequencerLive do
       )
 
   ## Loop
-
-  defp schedule_tick(socket) do
-    time_in_ms = round(60 / socket.assigns.bpm * 1_000)
-    Process.send_after(self(), :tick, time_in_ms)
-    socket
-  end
 
   def toggle_options_view(%{assigns: %{options_view: view}} = socket, view) do
     assign(socket, options_view: "options")

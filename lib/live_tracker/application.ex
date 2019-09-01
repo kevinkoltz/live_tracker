@@ -10,6 +10,7 @@ defmodule LiveTracker.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
+      {Registry, keys: :unique, name: LiveTracker.ClockRegistry},
       LiveTracker.Sessions.Supervisor,
       LiveTrackerWeb.Endpoint
     ]

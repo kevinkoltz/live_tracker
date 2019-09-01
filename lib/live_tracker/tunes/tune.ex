@@ -33,10 +33,10 @@ defmodule LiveTracker.Tunes.Tune do
   end
 
   @doc """
-  Returns a note at a specific position (line) for a given track.
+  Returns a note at a specific step (line) for a given tracks pattern.
   """
-  @spec note_at_position(t, track_id, line_id) :: Note.t()
-  def note_at_position(tune, track_id, line_id) do
+  @spec note_at_step(t, track_id, line_id) :: Note.t()
+  def note_at_step(tune, track_id, line_id) do
     Map.get(tune, {track_id, line_id})
   end
 end
