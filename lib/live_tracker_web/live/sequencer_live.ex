@@ -38,7 +38,7 @@ defmodule LiveTrackerWeb.SequencerLive do
       |> assign(username: session.username)
       # TODO: update this to be an instance of a song (song session id)
       |> assign(current_song_id: session.current_song_id)
-      |> assign(stunes: Tunes.list_tunes())
+      |> assign(tunes: Tunes.list_tunes())
 
     if connected?(socket) do
       Tunes.subscribe("clock:#{session.current_song_id}")
