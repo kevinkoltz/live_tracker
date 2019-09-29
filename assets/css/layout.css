@@ -44,7 +44,17 @@ form.form-horizontal .control.control-flex {
 #logo {
   font-size: 8px;
   font-weight: bold;
-  margin: 10px 0 0 8px;
+  line-height: 7px;
+  white-space: pre;
+  margin: auto;
+}
+
+/* Hack to get logo to not overlap w/ Safari. */
+_::-webkit-full-page-media,
+_:future,
+:root #logo {
+  font-size: 7px;
+  line-height: 6px;
 }
 
 .vertical-controls {
