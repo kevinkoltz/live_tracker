@@ -1,3 +1,7 @@
+#tracker-settings-header #logo {
+  margin: 1rem;
+}
+
 #tracker-username-selector {
   display: grid;
   align-content: center;
