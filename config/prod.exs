@@ -10,7 +10,6 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :live_tracker, LiveTrackerWeb.Endpoint,
-  url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -53,3 +52,18 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
 import_config "prod.secret.exs"
+
+config :live_tracker, LiveTrackerWeb.Endpoint,
+  # Possibly not needed, but doesn't hurt
+  http: [port: {:system, "PORT"}],
+  url: [host: System.get_env("APP_NAME") <> ".gigalixirapp.com", port: 80],
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+  server: true
+
+config :live_tracker, LiveTracker.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  ssl: true,
+  # Free tier db only allows 4 connections. Rolling deploys need
+  # pool_size*(n+1) connections where n is the number of app replicas.
+  pool_size: 2
