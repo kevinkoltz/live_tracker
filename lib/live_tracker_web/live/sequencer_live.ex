@@ -186,14 +186,10 @@ defmodule LiveTrackerWeb.SequencerLive do
     assign(socket, recording: false)
   end
 
-  defp record(%{assigns: %{recording: true, playing: true}} = socket),
-    do: socket |> toggle_recording() |> stop()
-
   defp record(%{assigns: %{recording: false, playing: false}} = socket),
     do: socket |> toggle_recording() |> play()
 
-  defp record(%{assigns: %{recording: false, playing: true}} = socket),
-    do: socket |> toggle_recording()
+  defp record(socket), do: socket |> toggle_recording()
 
   defp toggle_recording(socket), do: assign(socket, recording: !socket.assigns.recording)
 
