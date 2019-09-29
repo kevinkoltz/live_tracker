@@ -52,14 +52,12 @@
 }
 
 #tracker-load>.files {
-  margin: 3px;
   background: MidnightBlue;
-
 }
 
 #tracker-load>.files>.file {
   cursor: pointer;
-  margin: 2px;
+  margin: 1px;
 }
 
 #tracker-load>.files>.file.selected {
