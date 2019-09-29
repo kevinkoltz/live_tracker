@@ -232,6 +232,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   end
 
   defp play_note(socket, note, opts) when is_atom(note) do
+    %{assigns: %{current_song_id: song_id}} = socket
     track = Keyword.get(opts, :track, socket.assigns.selected_track)
     duration = Keyword.get(opts, :duration, "8n")
 
@@ -239,11 +240,7 @@ defmodule LiveTrackerWeb.SequencerLive do
       opts
       |> Keyword.get(:octave, socket.assigns.octave)
 
-    # TODO:
-    # tone_js_note = ToneJsNote.new(note, octave, duration)
-    # to_string(note) # Cb3
-
-    Endpoint.broadcast!("tracker:playback", "play_note", %{
+    Endpoint.broadcast!("tracker:#{song_id}", "play_note", %{
       track: track,
       note: to_string(note) <> to_string(octave),
       duration: duration
@@ -298,6 +295,10 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:stop,
      socket
      |> put_flash(:error, error_message)
-     |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
+     |> redirect(to: song_path(socket))}
+  end
+
+  defp song_path(%{assigns: %{current_song_id: song_id}} = socket) do
+    Routes.live_path(socket, LiveTrackerWeb.SequencerLive, song_id: song_id)
   end
 end

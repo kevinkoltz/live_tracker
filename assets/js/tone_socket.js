@@ -1,5 +1,19 @@
 /*jshint esversion: 6 */
 
+/*
+
+This file sets up the samples for Tone.js to play and listens on a separate socket
+for incoming notes to play. Currently, they are a fixed set of samples.
+Sample editing support is on the future wishlist, along with sample loading
+from existing modules and/or uploading of samples.
+
+It may make sense to use the new phx-hook feature for configuring Tone.js if
+more features are added here:
+
+https: //hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-js-interop-and-client-controlled-dom
+
+*/
+
 import {
   Socket
 } from "phoenix";
@@ -32,7 +46,9 @@ let instruments = [
 let socket = new Socket("/tone");
 socket.connect();
 
-let channel = socket.channel("tracker:playback", {});
+let url = new URL(window.location.href);
+let songId = url.searchParams.get("song_id");
+let channel = socket.channel(`tracker:${songId}`, {});
 
 channel.join()
   .receive("ok", resp => {
