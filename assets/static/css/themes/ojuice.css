@@ -54,6 +54,7 @@ input[type="text"] {
 }
 
 button,
+a.button,
 input[type="submit"] {
   color: White;
   text-shadow: 2px 2px Black;
@@ -65,6 +66,7 @@ input[type="submit"] {
 }
 
 button:disabled,
+a.button:disabled,
 .button-disabled {
   color: LightGrey;
   text-shadow: 2px 2px #555;

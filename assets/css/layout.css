@@ -1,5 +1,10 @@
 /* Styles of global elements */
 
+body {
+  width: 800px;
+  margin: 10px auto;
+}
+
 header {
   height: 84px;
 }

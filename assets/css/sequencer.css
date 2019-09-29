@@ -2,12 +2,12 @@
 
 #tracker-sequencer-header {
   display: grid;
-  grid-template-columns: auto 384px;
+  grid-template-columns: auto 254px;
 }
 
 #tracker-subheader {
   display: grid;
-  grid-template-columns: 128px 128px auto 384px;
+  grid-template-columns: 128px 128px auto 256px;
   grid-template-rows: auto;
   grid-template-areas: "info transport meters options"
 }
@@ -47,7 +47,7 @@
 
 #tracker-options {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(2, auto);
   grid-template-rows: repeat(3, auto);
 }
 

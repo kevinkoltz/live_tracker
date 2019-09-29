@@ -5,7 +5,7 @@
   <%= for tune <- @tunes do %>
     <div class='file <%= @load_file_selected_id == tune.id && "selected" || "" %>'
          phx-click="select_load_file"
-         phx-value="<%= tune.id %>"
+         phx-value-tune_id="<%= tune.id %>"
          >
          <%= tune.id %>  <%= tune.filename %>
     </div>
@@ -13,7 +13,7 @@
   <%# Raises file not found for demo purposes %>
   <div class='file <%= @load_file_selected_id == "1F" && "selected" || "" %>'
         phx-click="select_load_file"
-        phx-value="1F"
+        phx-value-tune_id="1F"
         class="selected"> 
         1F  MISSING_CHIP.MOD
   </div>
@@ -21,5 +21,5 @@
 
 <div class="buttons">
   <button phx-click="load" <%= @load_file_selected_id == nil && "disabled" %>>Load</button>
-  <button phx-click="toggle_options_view" phx-value="load">Cancel</button>
+  <button phx-click="hide_load_view">Cancel</button>
 </div>

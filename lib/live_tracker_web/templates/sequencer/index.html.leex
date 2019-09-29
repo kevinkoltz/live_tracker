@@ -9,7 +9,7 @@
   </div>
 </header>
 
-<section id="tracker-subheader" phx-keydown="keydown" phx-target="window">
+<section id="tracker-subheader" phx-keydown="keydown" phx-target="window" phx-throttle="50">
   <div id="tracker-info" class="embossed">
     <div>
       POS: <%= number_format(@song_position, padding: 3, hex: true) %>
@@ -37,7 +37,7 @@
 
   <div id="tracker-vu-meters" class="embossed">
     <%= for track_id <- 0..@tracks-1 do %>
-      <div class="vu-meter recessed" phx-click="select_track" phx-value="<%= track_id %>">
+      <div class="vu-meter recessed" phx-click="select_track" phx-value-track_id="<%= track_id %>">
         <%= track_id %>
 
         <%= if track_id == @selected_track do %>

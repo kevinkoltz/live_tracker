@@ -1,7 +1,8 @@
 <div>
   <h4>Users</h4>
   <div class="lcd recessed">
-    <%= for line_id <- 0..4 do %>
+    <%# TODO: Implement multiple users per song %>
+    <%= for line_id <- [0] do %>
       <div class='line <%= 0 == line_id && "selected" %>'>
         <%= number_format(line_id, padding: 2, hex: true) %><br>
         <div class="username">

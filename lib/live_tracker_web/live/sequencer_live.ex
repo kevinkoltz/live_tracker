@@ -59,82 +59,64 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   ## Tracks
 
-  def handle_event("select_track", track_id, socket),
+  def handle_event("select_track", %{"track_id" => track_id}, socket),
     do: {:noreply, select_track(socket, String.to_integer(track_id))}
 
-  def handle_event("keydown", "ArrowRight", socket), do: {:noreply, select_track(socket, :next)}
-  def handle_event("keydown", "ArrowLeft", socket), do: {:noreply, select_track(socket, :prev)}
+  def handle_event("keydown", %{"key" => "ArrowRight"}, socket),
+    do: {:noreply, select_track(socket, :next)}
+
+  def handle_event("keydown", %{"key" => "ArrowLeft"}, socket),
+    do: {:noreply, select_track(socket, :prev)}
 
   ## Keyboard notes
 
   # TODO: this should temporarily overwrite tune so both notes do not clobber each other
 
-  def handle_event("keydown", key, socket)
-      when key in ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "m"] do
+  def handle_event("keydown", %{"key" => key}, socket)
+      when key in ~w(a w s e d f t g y h u j m k l) do
     %{octave: octave, pattern_step: pattern_step, selected_track: selected_track} = socket.assigns
 
-    note = key_to_note(key, octave)
+    case key_to_note(key, octave) do
+      {:ok, note} ->
+        send(self(), {:maybe_record, note, selected_track, pattern_step})
 
-    # TODO: debounce to prevent duplicate repeated notes, quantize amount of
-    # time to duration between steps?
-    send(self(), {:maybe_record, note, selected_track, pattern_step})
+        {:noreply, play_note(socket, note)}
 
-    {:noreply, play_note(socket, note)}
+      {:ok, :clear} ->
+        send(self(), {:clear_note, selected_track, pattern_step})
+
+        {:noreply, socket}
+    end
   end
 
   ## Octave up/down
 
-  def handle_event("keydown", "z", socket), do: {:noreply, change_octave(socket, :down)}
-  def handle_event("keydown", "x", socket), do: {:noreply, change_octave(socket, :up)}
+  def handle_event("keydown", %{"key" => "z"}, socket),
+    do: {:noreply, change_octave(socket, :down)}
 
-  def handle_event("keydown", _keydown, socket), do: {:noreply, socket}
+  def handle_event("keydown", %{"key" => "x"}, socket), do: {:noreply, change_octave(socket, :up)}
+
+  def handle_event("keydown", _keydown, socket) do
+    # IO.inspect(keydown, label: "key")
+
+    {:noreply, socket}
+  end
 
   ## Options Views
 
-  def handle_event("toggle_options_view", view, socket)
-      when view in [
-             "load",
-             "save",
-             "upload",
-             "scale",
-             "theme",
-             "instrument_edit",
-             "pattern_edit",
-             "sample_edit",
-             "options"
-           ] do
-    case view do
-      "save" ->
-        {:stop,
-         socket
-         |> put_flash(
-           :error,
-           "Not ready reading drive A:  Abort, Retry, Fail?"
-         )
-         |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
+  def handle_event("show_load_view", _, socket),
+    do: {:noreply, assign(socket, options_view: "load")}
 
-      "upload" ->
-        {:stop,
-         socket
-         |> put_flash(
-           :error,
-           "Error: TRACKER LOAD MOD"
-         )
-         |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
+  def handle_event("hide_load_view", _, socket),
+    do: {:noreply, assign(socket, options_view: "options")}
 
-      view when view in ["load"] ->
-        {:noreply, toggle_options_view(socket, view)}
+  # TODO: Views to implement.
 
-      view ->
-        {:stop,
-         socket
-         |> put_flash(
-           :error,
-           "Error: #{view} not implemented."
-         )
-         |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
-    end
-  end
+  def handle_event("show_save_view", _, socket),
+    do: display_error(socket, "Not ready reading drive A:  Abort, Retry, Fail?")
+
+  def handle_event("show_upload_view", _, socket),
+    do: display_error(socket, "Error: TRACKER LOAD MOD")
 
   ## File Operations
 
@@ -166,8 +148,8 @@ defmodule LiveTrackerWeb.SequencerLive do
     end
   end
 
-  def handle_event("select_load_file", id, socket) do
-    {:noreply, socket |> assign(load_file_selected_id: id)}
+  def handle_event("select_load_file", %{"tune_id" => tune_id}, socket) do
+    {:noreply, socket |> assign(load_file_selected_id: tune_id)}
   end
 
   def handle_event("upload", _, _socket), do: {:error, "Not implemented"}
@@ -188,6 +170,12 @@ defmodule LiveTrackerWeb.SequencerLive do
      |> maybe_play_notes()}
   end
 
+  def handle_info({:clear_note, track, pattern_step}, socket) do
+    tune = Tunes.clear_note(socket.assigns.tune, track, pattern_step)
+
+    {:noreply, socket |> assign(tune: tune)}
+  end
+
   def handle_info({:maybe_record, _, _, _}, %{assigns: %{recording: false}} = socket) do
     {:noreply, socket}
   end
@@ -196,9 +184,7 @@ defmodule LiveTrackerWeb.SequencerLive do
         {:maybe_record, note, track, pattern_step},
         %{assigns: %{recording: true}} = socket
       ) do
-    tune =
-      socket.assigns.tune
-      |> Tunes.record_note(note, track, pattern_step)
+    tune = Tunes.record_note(socket.assigns.tune, note, track, pattern_step)
 
     {:noreply, socket |> assign(tune: tune)}
   end
@@ -316,18 +302,25 @@ defmodule LiveTrackerWeb.SequencerLive do
     assign(socket, options_view: view)
   end
 
-  defp key_to_note("a", octave), do: {:C, octave}
-  defp key_to_note("w", octave), do: {:Cb, octave}
-  defp key_to_note("s", octave), do: {:D, octave}
-  defp key_to_note("e", octave), do: {:Db, octave}
-  defp key_to_note("d", octave), do: {:E, octave}
-  defp key_to_note("f", octave), do: {:F, octave}
-  defp key_to_note("t", octave), do: {:Fb, octave}
-  defp key_to_note("g", octave), do: {:G, octave}
-  defp key_to_note("y", octave), do: {:Gb, octave}
-  defp key_to_note("h", octave), do: {:A, octave}
-  defp key_to_note("u", octave), do: {:Ab, octave}
-  defp key_to_note("j", octave), do: {:B, octave}
-  defp key_to_note("k", octave), do: {:C, shift_octave(octave, 1)}
-  defp key_to_note("m", _octave), do: :clear
+  defp key_to_note("a", octave), do: {:ok, {:C, octave}}
+  defp key_to_note("w", octave), do: {:ok, {:Cb, octave}}
+  defp key_to_note("s", octave), do: {:ok, {:D, octave}}
+  defp key_to_note("e", octave), do: {:ok, {:Db, octave}}
+  defp key_to_note("d", octave), do: {:ok, {:E, octave}}
+  defp key_to_note("f", octave), do: {:ok, {:F, octave}}
+  defp key_to_note("t", octave), do: {:ok, {:Fb, octave}}
+  defp key_to_note("g", octave), do: {:ok, {:G, octave}}
+  defp key_to_note("y", octave), do: {:ok, {:Gb, octave}}
+  defp key_to_note("h", octave), do: {:ok, {:A, octave}}
+  defp key_to_note("u", octave), do: {:ok, {:Ab, octave}}
+  defp key_to_note("j", octave), do: {:ok, {:B, octave}}
+  defp key_to_note("k", octave), do: {:ok, {:C, shift_octave(octave, 1)}}
+  defp key_to_note("m", _octave), do: {:ok, :clear}
+
+  defp display_error(socket, error_message) do
+    {:stop,
+     socket
+     |> put_flash(:error, error_message)
+     |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
+  end
 end

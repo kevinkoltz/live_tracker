@@ -14,7 +14,7 @@
     <% end %>
     <div class="control control-flex">
       <%= text_input f, :username %>
-      <button phx-click="generate_handle" class="button-large">Generate</button>
+      <a phx-click="generate_handle" class="button button-large">Generate</a>
       <%= error_tag f, :username %>
     </div>
 

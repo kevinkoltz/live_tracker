@@ -16,8 +16,6 @@ body {
   background-color: Black;
   color: White;
   text-shadow: 1px 1px Grey;
-  width: 1024px;
-  margin: 10px auto;
 }
 
 input[type="text"] {
@@ -37,6 +35,7 @@ input[type="text"] {
 }
 
 button:active,
+a.button:active,
 input[type='button']:active,
 input[type='reset']:active,
 input[type='submit']:active {
@@ -47,6 +46,7 @@ input[type='submit']:active {
 }
 
 button,
+a.button,
 input[type='button'],
 input[type='reset'],
 input[type='submit'] {
@@ -71,11 +71,13 @@ input[type='submit'] {
 }
 
 button:disabled,
+a.button:disabled,
 .button-disabled {
   color: Grey;
 }
 
 button.button-large,
+a.button.button-large,
 input.button-large {
   line-height: 24px;
   padding-left: 24px;

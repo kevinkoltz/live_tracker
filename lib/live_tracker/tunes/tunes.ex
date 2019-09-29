@@ -77,15 +77,21 @@ defmodule LiveTracker.Tunes do
   @doc """
   Records a note into a tune at given step.
   """
-  @spec record_note(Tune.t(), Note.t() | :clear, Tune.track_id(), Tune.line_id()) ::
+  @spec record_note(Tune.t(), Note.t(), Tune.track_id(), Tune.line_id()) ::
           Tune.t()
-  def record_note(tune, :clear, track_id, line_id) do
-    notes = Map.delete(tune.notes, {track_id, line_id})
-    %Tune{tune | notes: notes}
-  end
 
   def record_note(tune, note, track_id, line_id) do
     notes = Map.put(tune.notes, {track_id, line_id}, note)
+    %Tune{tune | notes: notes}
+  end
+
+  @doc """
+  Clears a note into a tune at given step.
+  """
+  @spec clear_note(Tune.t(), Tune.track_id(), Tune.line_id()) ::
+          Tune.t()
+  def clear_note(tune, track_id, line_id) do
+    notes = Map.delete(tune.notes, {track_id, line_id})
     %Tune{tune | notes: notes}
   end
 

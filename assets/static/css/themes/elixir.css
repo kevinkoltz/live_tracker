@@ -15,6 +15,7 @@ input[type="text"] {
 }
 
 button,
+a.button,
 input[type="submit"] {
   background-color: LightGrey;
 }
