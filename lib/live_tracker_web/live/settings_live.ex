@@ -15,7 +15,7 @@ defmodule LiveTrackerWeb.SettingsLive do
     changeset =
       session
       |> Sessions.change_session(%{
-        username: Sessions.generate_username()
+        username: session.username || Sessions.generate_username()
       })
 
     themes = Themes.list_themes()
