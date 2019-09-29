@@ -42,15 +42,9 @@ form.form-horizontal .control.control-flex {
 }
 
 #logo {
-  /*
-  Logo is wider w/ Safari when using pixels.
-  Using viewport width fixes this.
-  */
-  font-size: 0.8vw;
-  line-height: 7px;
+  font-size: 8px;
   font-weight: bold;
-  margin: auto;
-  white-space: pre;
+  margin: 10px 0 0 8px;
 }
 
 .vertical-controls {

@@ -97,10 +97,6 @@ section {
 	display: block;
 }
 
-html {
-	-webkit-text-size-adjust: 100%;
-}
-
 body {
 	line-height: 1;
 }
