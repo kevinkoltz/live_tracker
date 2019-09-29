@@ -48,18 +48,21 @@ socket.connect();
 
 let url = new URL(window.location.href);
 let songId = url.searchParams.get("song_id");
-let channel = socket.channel(`tracker:${songId}`, {});
 
-channel.join()
-  .receive("ok", resp => {
-    console.log("Joined successfully", resp);
-  })
-  .receive("error", resp => {
-    console.log("Unable to join", resp);
+if (songId) {
+  let channel = socket.channel(`tracker:${songId}`, {});
+
+  channel.join()
+    .receive("ok", resp => {
+      console.log("Joined successfully", resp);
+    })
+    .receive("error", resp => {
+      console.log("Unable to join", resp);
+    });
+
+  channel.on("play_note", msg => {
+    instruments[msg.track].triggerAttackRelease(msg.note, msg.duration);
   });
-
-channel.on("play_note", msg => {
-  instruments[msg.track].triggerAttackRelease(msg.note, msg.duration);
-});
+}
 
 export default socket;
