@@ -79,7 +79,7 @@ defmodule LiveTrackerWeb.SequencerLive do
 
         {:noreply, play_note(socket, note)}
 
-      {:ok, :clear} ->
+      :clear_note ->
         send(self(), {:clear_note, selected_track, pattern_step})
 
         {:noreply, socket}
@@ -292,7 +292,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   defp key_to_note("u", octave), do: {:ok, {:Ab, octave}}
   defp key_to_note("j", octave), do: {:ok, {:B, octave}}
   defp key_to_note("k", octave), do: {:ok, {:C, shift_octave(octave, 1)}}
-  defp key_to_note("m", _octave), do: {:ok, :clear}
+  defp key_to_note("m", _octave), do: :clear_note
 
   defp display_error(socket, error_message) do
     {:stop,

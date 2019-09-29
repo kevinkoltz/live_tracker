@@ -81,8 +81,7 @@ defmodule LiveTracker.Tunes do
           Tune.t()
 
   def record_note(tune, note, track_id, line_id) do
-    notes = Map.put(tune.notes, {track_id, line_id}, note)
-    %Tune{tune | notes: notes}
+    %Tune{tune | notes: Map.put(tune.notes, {track_id, line_id}, note)}
   end
 
   @doc """
@@ -91,8 +90,7 @@ defmodule LiveTracker.Tunes do
   @spec clear_note(Tune.t(), Tune.track_id(), Tune.line_id()) ::
           Tune.t()
   def clear_note(tune, track_id, line_id) do
-    notes = Map.delete(tune.notes, {track_id, line_id})
-    %Tune{tune | notes: notes}
+    %Tune{tune | notes: Map.delete(tune.notes, {track_id, line_id})}
   end
 
   @doc """
