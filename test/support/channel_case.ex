@@ -26,13 +26,7 @@ defmodule LiveTrackerWeb.ChannelCase do
     end
   end
 
-  setup tags do
-    :ok = Sandbox.checkout(LiveTracker.Repo)
-
-    unless tags[:async] do
-      Sandbox.mode(LiveTracker.Repo, {:shared, self()})
-    end
-
+  setup _tags do
     :ok
   end
 end

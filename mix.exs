@@ -36,9 +36,8 @@ defmodule LiveTracker.MixProject do
       {:phoenix, "~> 1.4.9"},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_live_view, "~> 0.3.0"},
+      {:phoenix_live_view, "== 0.3.0"},
       {:ecto_sql, "~> 3.1"},
-      {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
@@ -47,6 +46,7 @@ defmodule LiveTracker.MixProject do
       {:credo, "~> 0.5", only: [:dev, :test]},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false},
       {:mix_test_watch, "~> 0.8", only: :dev, runtime: false},
+      {:decimal, "~> 1.8.0"},
       {:calendar, "~> 0.17.6"}
     ]
   end
@@ -58,10 +58,6 @@ defmodule LiveTracker.MixProject do
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
-    [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
-    ]
+    []
   end
 end

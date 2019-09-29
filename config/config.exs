@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :live_tracker,
-  ecto_repos: [LiveTracker.Repo]
-
 # Configures the endpoint
 config :live_tracker, LiveTrackerWeb.Endpoint,
   url: [host: "localhost"],

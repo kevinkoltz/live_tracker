@@ -27,12 +27,6 @@ defmodule LiveTrackerWeb.ConnCase do
   end
 
   setup _tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(LiveTracker.Repo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(LiveTracker.Repo, {:shared, self()})
-    # end
-
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end
