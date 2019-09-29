@@ -40,11 +40,17 @@ defmodule LiveTracker.Sessions do
   @doc """
   Generates a random username for a users session.
   """
-  @spec generate_username :: binary
-  def generate_username do
+  @spec generate_username(String.t() | nil) :: {:ok, String.t()}
+  def generate_username(previous_username) do
     prefixes = ~w(Zero Chip Beet)
     suffixes = ~w(Overid3 Phreak Digit41)
 
-    Enum.random(prefixes) <> Enum.random(suffixes)
+    username = Enum.random(prefixes) <> Enum.random(suffixes)
+
+    if username == previous_username do
+      generate_username(previous_username)
+    else
+      {:ok, username}
+    end
   end
 end

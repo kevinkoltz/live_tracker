@@ -12,11 +12,17 @@ defmodule LiveTrackerWeb.SettingsLive do
   def mount(%{session_id: session_id} = _session, socket) do
     {:ok, session} = SessionStore.get(session_id)
 
+    username =
+      if session.username do
+        session.username
+      else
+        {:ok, username} = Sessions.generate_username(nil)
+        username
+      end
+
     changeset =
       session
-      |> Sessions.change_session(%{
-        username: session.username || Sessions.generate_username()
-      })
+      |> Sessions.change_session(%{username: username})
 
     themes = Themes.list_themes()
 
@@ -41,11 +47,12 @@ defmodule LiveTrackerWeb.SettingsLive do
   end
 
   def handle_event("generate_handle", _, socket) do
+    previous_username = Map.get(socket.assigns.changeset.changes, :username, nil)
+    {:ok, username} = Sessions.generate_username(previous_username)
+
     changeset =
       socket.assigns.changeset
-      |> Sessions.change_session(%{
-        username: Sessions.generate_username()
-      })
+      |> Sessions.change_session(%{username: username})
 
     {:noreply, assign(socket, changeset: changeset)}
   end
