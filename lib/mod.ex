@@ -1,4 +1,5 @@
 defmodule Mod do
+  # credo:disable-for-this-file
   @moduledoc """
 
   This is a work-in-progress.

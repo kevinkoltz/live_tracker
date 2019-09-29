@@ -55,17 +55,14 @@ defmodule LiveTracker.Clock do
   end
 
   @impl true
+  def handle_cast(:play, %{playing: true} = state), do: {:noreply, state}
+
   def handle_cast(:play, state) do
-    # Prevent doubling of the BPM if the play button is pressed twice.
-    unless state.playing do
-      {:noreply,
-       state
-       |> Map.put(:playing, true)
-       |> maybe_loop()
-       |> notify_subscribers()}
-    else
-      {:noreply, state}
-    end
+    {:noreply,
+     state
+     |> Map.put(:playing, true)
+     |> maybe_loop()
+     |> notify_subscribers()}
   end
 
   @impl true

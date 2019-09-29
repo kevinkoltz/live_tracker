@@ -27,7 +27,6 @@ defmodule LiveTracker.Sessions.Session do
   def new do
     %__MODULE__{
       id: UUID.generate(),
-      # TODO: set this on a song selection page (New, Existing)
       current_song_id: UUID.generate()
     }
   end

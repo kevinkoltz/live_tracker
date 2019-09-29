@@ -13,7 +13,7 @@ defmodule HexadecimalTest do
       assert Hexadecimal.from_base10(255) == "FF"
       assert Hexadecimal.from_base10(256) == "100"
       assert Hexadecimal.from_base10(7562) == "1D8A"
-      assert Hexadecimal.from_base10(35631) == "8B2F"
+      assert Hexadecimal.from_base10(35_631) == "8B2F"
     end
   end
 end

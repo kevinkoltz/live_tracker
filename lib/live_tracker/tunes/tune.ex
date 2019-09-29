@@ -27,7 +27,6 @@ defmodule LiveTracker.Tunes.Tune do
   Returns a new tune.
   """
   @spec new(filename, name) :: t
-  # TODO: UNTITLED02.. UNTITLED03..
   def new(id, filename \\ "UNTITLED.MOD", name \\ "Untitled") do
     %__MODULE__{id: id, name: name, filename: filename}
   end

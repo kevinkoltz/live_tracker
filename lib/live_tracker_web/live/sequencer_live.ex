@@ -7,7 +7,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   alias LiveTracker.Tunes
   alias LiveTracker.Tunes.Tune
   alias LiveTrackerWeb.Router.Helpers, as: Routes
-  alias LiveTrackerWeb.SequencerView
+  alias LiveTrackerWeb.{Endpoint, SequencerView}
 
   @initial bpm: 200,
            playing: false,
@@ -36,7 +36,6 @@ defmodule LiveTrackerWeb.SequencerLive do
       |> assign(@initial)
       |> assign(theme: session.theme)
       |> assign(username: session.username)
-      # TODO: update this to be an instance of a song (song session id)
       |> assign(current_song_id: session.current_song_id)
       |> assign(tunes: Tunes.list_tunes())
 
@@ -108,8 +107,6 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_event("hide_load_view", _, socket),
     do: {:noreply, assign(socket, options_view: "options")}
 
-  # TODO: Views to implement.
-
   def handle_event("show_save_view", _, socket),
     do: display_error(socket, "Not ready reading drive A:  Abort, Retry, Fail?")
 
@@ -145,7 +142,6 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_event("save", _, _socket), do: {:error, "Not implemented"}
 
   def handle_event("settings", _, socket) do
-    # TODO: Prompt to save
     {:stop, redirect(socket, to: Routes.live_path(socket, LiveTrackerWeb.SettingsLive))}
   end
 
@@ -247,7 +243,7 @@ defmodule LiveTrackerWeb.SequencerLive do
     # tone_js_note = ToneJsNote.new(note, octave, duration)
     # to_string(note) # Cb3
 
-    LiveTrackerWeb.Endpoint.broadcast!("tracker:playback", "play_note", %{
+    Endpoint.broadcast!("tracker:playback", "play_note", %{
       track: track,
       note: to_string(note) <> to_string(octave),
       duration: duration
@@ -255,14 +251,6 @@ defmodule LiveTrackerWeb.SequencerLive do
 
     socket
     |> assign(:current_note, to_string(note) <> to_string(octave))
-    |> maybe_record()
-  end
-
-  defp maybe_record(%{assigns: %{recording: false}} = socket), do: socket
-
-  defp maybe_record(%{assigns: %{recording: true}} = socket) do
-    # TODO: update sequence for current selected track
-    socket
   end
 
   ## Tracks
