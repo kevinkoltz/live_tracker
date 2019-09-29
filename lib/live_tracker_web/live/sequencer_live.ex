@@ -70,8 +70,6 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   ## Keyboard notes
 
-  # TODO: this should temporarily overwrite tune so both notes do not clobber each other
-
   def handle_event("keydown", %{"key" => key}, socket)
       when key in ~w(a w s e d f t g y h u j m k l) do
     %{octave: octave, pattern_step: pattern_step, selected_track: selected_track} = socket.assigns
@@ -120,8 +118,6 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   ## File Operations
 
-  # TODO: move these into child liveviews?
-
   def handle_event("new", _, socket) do
     {:noreply, assign(socket, tune: Tune.new("FF"))}
   end
@@ -129,7 +125,6 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_event("load", _, socket) do
     id = socket.assigns.load_file_selected_id
 
-    # TODO: load from saved tunes
     case Tunes.load_tune(id) do
       {:ok, tune} ->
         {:noreply,
@@ -138,13 +133,7 @@ defmodule LiveTrackerWeb.SequencerLive do
          |> toggle_options_view("load")}
 
       {:error, :not_found} ->
-        {:stop,
-         socket
-         |> put_flash(
-           :error,
-           "File not found: #{id}"
-         )
-         |> redirect(to: Routes.live_path(socket, LiveTrackerWeb.SequencerLive))}
+        display_error(socket, "File not found: #{id}")
     end
   end
 
