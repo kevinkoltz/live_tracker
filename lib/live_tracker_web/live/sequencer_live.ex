@@ -142,7 +142,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   def handle_event("save", _, _socket), do: {:error, "Not implemented"}
 
   def handle_event("settings", _, socket) do
-    {:stop, redirect(socket, to: Routes.live_path(socket, LiveTrackerWeb.SettingsLive))}
+    {:stop, redirect(socket, to: settings_path(socket))}
   end
 
   def handle_info({:clock, clock}, socket) do
@@ -300,5 +300,9 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   defp song_path(%{assigns: %{current_song_id: song_id}} = socket) do
     Routes.live_path(socket, LiveTrackerWeb.SequencerLive, song_id: song_id)
+  end
+
+  defp settings_path(%{assigns: %{current_song_id: song_id}} = socket) do
+    Routes.live_path(socket, LiveTrackerWeb.SettingsLive, song_id: song_id)
   end
 end
