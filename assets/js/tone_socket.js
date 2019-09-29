@@ -62,6 +62,7 @@ if (songId) {
 
   channel.on("play_note", msg => {
     instruments[msg.track].triggerAttackRelease(msg.note, msg.duration);
+    // console.debug("play_note", msg)
   });
 }
 
