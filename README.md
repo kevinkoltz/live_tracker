@@ -10,11 +10,14 @@
                                                   :            \/           v.3030
 ```
 
-Entry for [Phoenix Phrenzy](https://phoenixphrenzy.com) contest.
+An entry for the [Phoenix Phrenzy](https://phoenixphrenzy.com) contest.
 
-First there was Amiga [Soundtracker](https://en.wikipedia.org/wiki/Ultimate_Soundtracker) and [ProTracker](https://en.wikipedia.org/wiki/ProTracker).
-Then DOS [FastTracker](https://en.wikipedia.org/wiki/FastTracker_2).
-Now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTracker**.
+First there was Amiga
+[Soundtracker](https://en.wikipedia.org/wiki/Ultimate_Soundtracker) and
+[ProTracker](https://en.wikipedia.org/wiki/ProTracker). Then DOS
+[FastTracker](https://en.wikipedia.org/wiki/FastTracker_2). Now
+[LiveView](https://github.com/phoenixframework/phoenix_live_view)
+**LiveTracker**.
 
 ![LiveTracker preview](assets/static/images/preview.gif 'LiveTracker')
 
@@ -23,9 +26,12 @@ Now [LiveView](https://github.com/phoenixframework/phoenix_live_view) **LiveTrac
 LiveTracker is a fun attempt to capture the quirkyness of early [music
 trackers](https://en.wikipedia.org/wiki/Music_tracker). It uses
 [LiveView](https://github.com/phoenixframework/phoenix_live_view) for the
-user interface, music scheduling and recording. LiveTracker uses a separate
+user interface to capture notes being played from a computer keyboard and
+display the song sequence. Unlike traditional trackers, LiveTracker does not
+load samples from a [module file](https://en.wikipedia.org/wiki/Module_file)
+([yet?](/live_tracker/blob/master/lib/mod.ex)). Instead, it uses a separate
 websocket connection `/tone` to send one-way messages to
-[Tone.js](https://tonejs.github.io/) on the client side to generate sound in
+[Tone.js](https://tonejs.github.io/) on the client side to play samples in
 realtime (or close to it).
 
 ## How to play
@@ -49,15 +55,14 @@ Notes can be played using built-in keyboard mappings:
   - Ability to record notes from multiple computers simultaneously
 - Support for patterns (series of notes) and song edit (arrangement of patterns)
 - Scale selector (shifts played notes to nearest key in scale)
-- Ability to save sequences (maybe .mods too for export)
+- Ability to save sequences (maybe .mods too for export), along with autosave
+  (for when things crash)
 - VU Meters
   - [Tone.FFT](https://tonejs.github.io/examples/analysis.html)
   - or, just use a CSS animation when notes are played
 - Support uploading and parsing of MOD files
   - [The Amiga MOD Format](https://www.ocf.berkeley.edu/~eek/index.html/tiny_examples/ptmod/ap12.html)
   - [MOD Music File Format](https://www.fileformat.info/format/mod/corion.htm)
-- Use [GenStage](https://hexdocs.pm/gen_stage/GenStage.html) for sequencing
-  - Broadcast notes, instrument and sample changes to `/tone` socket from separate GenStage consumers
 - Sample/Instrument edit (Tone.js has many [options](https://tonejs.github.io/docs/r13/Sampler))
 - Update status when LiveView loses connection
 
@@ -74,12 +79,10 @@ To start your Phoenix server:
 
 - Install dependencies with `mix deps.get`
 - Create and migrate your database with `mix ecto.setup`
-- Install Node.js dependencies with `cd assets && npm install`
+- Install Node.js dependencies with `cd assets && npm install && cd -`
 - Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4440`](http://localhost:4440) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
 
