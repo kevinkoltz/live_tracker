@@ -4,8 +4,8 @@ defmodule LiveTrackerWeb.SettingsLive do
 
   alias LiveTracker.{Sessions, Themes}
   alias LiveTracker.Sessions.{Session, SessionStore}
-  alias LiveTrackerWeb.{GlobalView, SettingsView}
   alias LiveTrackerWeb.Router.Helpers, as: Routes
+  alias LiveTrackerWeb.SettingsView
 
   def render(assigns), do: SettingsView.render("index.html", assigns)
 
