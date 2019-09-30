@@ -26,9 +26,10 @@ First there was Amiga
 LiveTracker is a fun attempt to capture the quirkyness of early [music
 trackers](https://en.wikipedia.org/wiki/Music_tracker). It uses
 [LiveView](https://github.com/phoenixframework/phoenix_live_view) for the
-user interface to capture notes being played from a computer keyboard and
-display the song sequence. Unlike traditional trackers, LiveTracker does not
-load samples from a [module file](https://en.wikipedia.org/wiki/Module_file)
+user interface to capture notes being played from a computer keyboard while
+displaying the song sequence realtime. Unlike traditional trackers,
+LiveTracker does not load samples from a [module
+file](https://en.wikipedia.org/wiki/Module_file)
 ([yet?](/live_tracker/blob/master/lib/mod.ex)). Instead, it uses a separate
 websocket connection `/tone` to send one-way messages to
 [Tone.js](https://tonejs.github.io/) on the client side to play samples in
@@ -38,6 +39,9 @@ Note: LiveTracker currently works with Chrome (but not Safari). Safari
 requires user interaction before the Web Audio API can play sounds.
 
 ## How to play
+
+A demo can be viewed at
+[https://aching-puny-rhino.gigalixirapp.com](https://aching-puny-rhino.gigalixirapp.com).
 
 Notes can be played using built-in keyboard mappings:
 
