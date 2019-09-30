@@ -13,7 +13,7 @@ defmodule LiveTrackerWeb.Plugs.SetSession do
     session_id = get_session(conn, :session_id)
 
     case SessionStore.get(session_id) do
-      {:ok, session} ->
+      {:ok, _session} ->
         conn
 
       {:error, :not_found} ->
