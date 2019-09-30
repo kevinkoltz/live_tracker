@@ -71,7 +71,12 @@ defmodule LiveTrackerWeb.SequencerLive do
 
   def handle_event("keydown", %{"key" => key}, socket)
       when key in ~w(a w s e d f t g y h u j m k l) do
-    %{octave: octave, pattern_step: pattern_step, selected_track: selected_track} = socket.assigns
+    %{
+      octave: octave,
+      pattern_step: pattern_step,
+      selected_track: selected_track,
+      recording: recording
+    } = socket.assigns
 
     case key_to_note(key, octave) do
       {:ok, note} ->
@@ -80,7 +85,9 @@ defmodule LiveTrackerWeb.SequencerLive do
         {:noreply, play_note(socket, note)}
 
       :clear_note ->
-        send(self(), {:clear_note, selected_track, pattern_step})
+        if recording do
+          send(self(), {:clear_note, selected_track, pattern_step})
+        end
 
         {:noreply, socket}
     end
