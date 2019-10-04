@@ -29,32 +29,25 @@ defmodule LiveTrackerWeb.SequencerLive do
   def render(assigns), do: SequencerView.render("index.html", assigns)
 
   def mount(%{session_id: session_id} = _session, socket) do
-    case SessionStore.get(session_id) do
-      {:ok, session} ->
-        if connected?(socket) do
-          Tunes.subscribe("clock:#{session.current_song_id}")
+    {:ok, session} = SessionStore.get(session_id)
 
-          if Clock.lookup_pid(session.current_song_id) == nil do
-            Clock.start_link(session.current_song_id, bpm: @initial[:bpm])
-          end
-        end
+    updated_socket =
+      socket
+      |> assign(@initial)
+      |> assign(theme: session.theme)
+      |> assign(username: session.username)
+      |> assign(current_song_id: session.current_song_id)
+      |> assign(tunes: Tunes.list_tunes())
 
-        {:ok,
-         socket
-         |> assign(@initial)
-         |> load_session(session)
-         |> assign(tunes: Tunes.list_tunes())}
+    if connected?(socket) do
+      Tunes.subscribe("clock:#{session.current_song_id}")
 
-      {:error, _} ->
-        {:stop, redirect(socket, to: "/settings")}
+      if Clock.lookup_pid(session.current_song_id) == nil do
+        Clock.start_link(session.current_song_id, bpm: @initial[:bpm])
+      end
     end
-  end
 
-  defp load_session(socket, session) do
-    socket
-    |> assign(theme: session.theme)
-    |> assign(username: session.username)
-    |> assign(current_song_id: session.current_song_id)
+    {:ok, updated_socket}
   end
 
   ## Transport
