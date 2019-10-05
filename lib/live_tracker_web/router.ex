@@ -2,6 +2,7 @@ defmodule LiveTrackerWeb.Router do
   use LiveTrackerWeb, :router
 
   pipeline :browser do
+    plug :gigalixir_redirect
     plug :accepts, ["html"]
     plug :fetch_session
     plug Phoenix.LiveView.Flash
@@ -31,4 +32,11 @@ defmodule LiveTrackerWeb.Router do
 
     live "/settings", SettingsLive, session: [:session_id]
   end
+
+  # Redirect to new server: livetracker.onrelease.com
+  defp gigalixir_redirect(%{host: "aching-puny-rhino.gigalixirapp.com"} = conn, _opts) do
+    Phoenix.Controller.redirect(conn, external: "https://livetracker.kevinkoltz.com")
+  end
+
+  defp gigalixir_redirect(conn, _opts), do: conn
 end

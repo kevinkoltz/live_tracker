@@ -41,7 +41,7 @@ requires user interaction before the Web Audio API can play sounds.
 ## How to play
 
 A demo can be viewed at
-[https://aching-puny-rhino.gigalixirapp.com](https://aching-puny-rhino.gigalixirapp.com).
+[https://livetracker.kevinkoltz.com](https://livetracker.kevinkoltz.com).
 
 Notes can be played using built-in keyboard mappings:
 
@@ -80,6 +80,7 @@ How you deploy your app is up to you. A couple of the easiest options are:
 
 - Heroku ([instructions](https://hexdocs.pm/phoenix/heroku.html))
 - [Gigalixir](https://gigalixir.com/) (doesn't limit number of connections)
+- [Render](https://render.com)
 
 ## The Usual README Content
 
