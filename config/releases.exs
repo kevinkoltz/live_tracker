@@ -1,5 +1,5 @@
 # In this file, we load production configuration and secrets
-# from environmentariables. You can also hardcode secrets,
+# from environment variables. You can also hardcode secrets,
 # although such is generally not recommended and you have to
 # remember to add this file to your .gitignore.
 # See `mix help release` for more information.
@@ -12,7 +12,13 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
-config :live_tracker, LiveViewDemoWeb.Endpoint,
+config :live_tracker, LiveTrackerWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
-  secret_key_base: secret_key_base,
-  server: true
+  secret_key_base: secret_key_base
+
+# ## Using releases (Elixir v1.9+)
+#
+# If you are doing OTP releases, you need to instruct Phoenix
+# to start each relevant endpoint:
+#
+config :live_tracker, LiveTrackerWeb.Endpoint, server: true
