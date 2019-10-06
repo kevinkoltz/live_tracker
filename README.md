@@ -35,8 +35,8 @@ Instead, it uses a separate websocket connection `/tone` to send one-way
 messages to [Tone.js](https://tonejs.github.io/) on the client side to play
 samples in realtime (or close to it).
 
-Note: LiveTracker currently works with Chrome (but not Safari). Safari
-requires user interaction before the Web Audio API can play sounds.
+Note: Safari audio playback requires the page to be clicked first
+[see issue #1](https://github.com/kevinkoltz/live_tracker/issues/1)
 
 ## How to play
 
@@ -72,7 +72,7 @@ Notes can be played using built-in keyboard mappings:
   - [MOD Music File Format](https://www.fileformat.info/format/mod/corion.htm)
 - Sample/Instrument edit (Tone.js has many [options](https://tonejs.github.io/docs/r13/Sampler))
 - Update status when LiveView loses connection
-- Safari support, see [https://github.com/Tonejs/Tone.js/issues/518](https://github.com/Tonejs/Tone.js/issues/518)
+- Fix [initial playback with Safari][https://github.com/kevinkoltz/live_tracker/issues/1]
 
 ## Deployment
 

@@ -43,6 +43,13 @@ let instruments = [
   meow,
 ];
 
+// Web Audio playback is allowed when the user interacts with the page.
+// https://github.com/Tonejs/Tone.js/#starting-audio
+// https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
+document.querySelector("body").addEventListener("click", function() {
+  Tone.start();
+});
+
 let socket = new Socket("/tone");
 socket.connect();
 
