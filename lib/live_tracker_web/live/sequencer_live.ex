@@ -53,6 +53,20 @@ defmodule LiveTrackerWeb.SequencerLive do
     {:ok, updated_socket}
   end
 
+  def handle_params(params, _uri, socket) do
+    # Verify song_id exists in the URL and is valid, otherwise use current assigned song id
+    with {:ok, song_id} <- verify_song_param(socket, params) do
+      {:noreply, socket |> assign(params, current_song_id: song_id)}
+    else
+      {:error, :song_not_found} ->
+        # TODO: look into why this error is not displaying
+        display_error(socket, "Song not found.")
+
+      {:error, :song_id_missing} ->
+        {:noreply, live_redirect(socket, to: song_path(socket, params))}
+    end
+  end
+
   ## Transport
 
   def handle_event("play", _, socket), do: {:noreply, play(socket)}
@@ -304,8 +318,22 @@ defmodule LiveTrackerWeb.SequencerLive do
      |> redirect(to: song_path(socket))}
   end
 
-  defp song_path(%{assigns: %{current_song_id: song_id}} = socket) do
-    Routes.live_path(socket, LiveTrackerWeb.SequencerLive, song_id: song_id)
+  defp verify_song_param(socket, %{"song_id" => song_id} = _params) do
+    if connected?(socket) and Clock.lookup_pid(song_id) == nil do
+      {:error, :song_not_found}
+    else
+      {:ok, song_id}
+    end
+  end
+
+  defp verify_song_param(_socket, _params), do: {:error, :song_id_missing}
+
+  defp song_path(%{assigns: %{current_song_id: current_song_id}} = socket, params \\ %{}) do
+    new_params =
+      %{song_id: current_song_id}
+      |> Map.merge(params)
+
+    Routes.live_path(socket, LiveTrackerWeb.SequencerLive, new_params)
   end
 
   defp settings_path(%{assigns: %{current_song_id: song_id}} = socket) do

@@ -37,7 +37,7 @@ defmodule LiveTracker.Clock do
     {:via, Registry, {LiveTracker.ClockRegistry, song_id}}
   end
 
-  @spec lookup_pid(any) :: nil | pid | {atom, atom}
+  @spec lookup_pid(String.t()) :: nil | pid | {atom, atom}
   def lookup_pid(song_id) do
     song_id |> registered_name() |> GenServer.whereis()
   end
