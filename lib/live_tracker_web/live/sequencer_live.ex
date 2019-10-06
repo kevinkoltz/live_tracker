@@ -3,7 +3,7 @@ defmodule LiveTrackerWeb.SequencerLive do
   use Phoenix.LiveView
 
   alias LiveTracker.Clock
-  alias LiveTracker.Sessions.SessionStore
+  alias LiveTracker.Sessions.{Session, SessionStore}
   alias LiveTracker.Tunes
   alias LiveTracker.Tunes.Tune
   alias LiveTrackerWeb.Router.Helpers, as: Routes
@@ -23,13 +23,16 @@ defmodule LiveTrackerWeb.SequencerLive do
            options_view: "options",
            tunes: [],
            tune: Tune.new("FF"),
-           load_file_selected_id: nil,
-           theme: "elixir"
+           load_file_selected_id: nil
 
   def render(assigns), do: SequencerView.render("index.html", assigns)
 
   def mount(%{session_id: session_id} = _session, socket) do
-    {:ok, session} = SessionStore.get(session_id)
+    session =
+      case SessionStore.get(session_id) do
+        {:ok, session} -> session
+        {:error, :not_found} -> Session.new()
+      end
 
     updated_socket =
       socket
